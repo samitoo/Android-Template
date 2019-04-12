@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="5dp"
+    android:background="@android:color/holo_green_light">
+
+    <!-- Row Icon / Image -->
+    <ImageView
+        android:id="@+id/image_form"
+        android:layout_width="56dp"
+        android:layout_height="56dp"
+        android:layout_gravity="center"
+        android:src="@drawable/ic_assignment_black_24dp"/>
+    <!-- Center Text Row-->
+    <RelativeLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_gravity="center"
+        android:layout_marginLeft="30dp"
+        android:layout_weight=".8">
+        <TextView
+            android:id="@+id/form_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textStyle="bold"
+            android:text="Form Title"
+            android:textSize="30sp"
+            />
+        <TextView
+            android:id="@+id/form_details"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textStyle="bold"
+            android:text="Form Details Tag"
+            android:textSize="15sp"
+            android:layout_below="@+id/form_title"
+            />
+    </RelativeLayout>
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_gravity="center"
+        android:layout_weight=".2"
+        >
+        <ImageView
+            android:id="@+id/rightIcon_form"
+            android:layout_width="56dp"
+            android:layout_height="56dp"
+            android:layout_gravity="end"
+            android:src="@drawable/ic_dns_black_24dp"
+            />
+    </LinearLayout>
+
+
+</LinearLayout>
