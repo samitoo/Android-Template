@@ -1,11 +1,55 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
-    <CheckBoxPreference
-        android:defaultValue="true"
-        android:key="show_debug"
-        android:summary="Show Debug"
-        android:summaryOff="Don't Show Debug"
-        android:title="Turn on Debug"
-        />
+    <PreferenceCategory
+        android:key="notifications_category"
+        android:title="Notifications">
+
+        <SwitchPreference
+            android:key="show_notifications"
+            android:title="Enable App Notifications"
+            android:defaultValue="false"
+            android:summary="Show Testing Notifications"
+            android:summaryOff="Don't Show Testing Notifications"
+            />
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:key="dev_category"
+        android:title="Development Options">
+
+        <CheckBoxPreference
+            android:defaultValue="true"
+            android:key="show_debug"
+            android:summary="Show Debug"
+            android:summaryOff="Don't Show Debug"
+            android:title="Turn on Debug"
+            />
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:key="account_info_settings"
+        android:title="Mock Account Data">
+
+        <EditTextPreference
+            android:key="user_name"
+            android:title="Account Name"
+            android:persistent="true"
+            android:dialogTitle="User Name"
+            android:dialogMessage="Enter name for account testing"
+            android:defaultValue="John Smith"
+
+            />
+        <ListPreference
+            android:key="user_gender"
+            android:title="Gender"
+            android:persistent="true"
+            android:entries="@array/user_genders"
+            android:entryValues="@array/user_gender_values"
+            android:dialogTitle="Gender"
+            android:defaultValue="0"
+            />
+
+
+    </PreferenceCategory>
 
 </PreferenceScreen>
