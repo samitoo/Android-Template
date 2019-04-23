@@ -1,52 +1,52 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
     <PreferenceCategory
-        android:key="notifications_category"
-        android:title="Notifications">
+        android:key="@string/pref_category_notifications_key"
+        android:title="@string/pref_category_notifications_title">
 
         <SwitchPreference
-            android:key="show_notifications"
-            android:title="Enable App Notifications"
-            android:defaultValue="false"
+            android:key="@string/pref_show_notification_key"
+            android:title="@string/pref_show_notification_title"
             android:summary="Show Testing Notifications"
             android:summaryOff="Don't Show Testing Notifications"
+            android:defaultValue="@bool/pref_show_notification_default"
             />
     </PreferenceCategory>
 
     <PreferenceCategory
-        android:key="dev_category"
-        android:title="Development Options">
+        android:key="@string/pref_category_dev_key"
+        android:title="@string/pref_category_dev_title">
 
         <CheckBoxPreference
-            android:defaultValue="true"
-            android:key="show_debug"
-            android:summary="Show Debug"
-            android:summaryOff="Don't Show Debug"
-            android:title="Turn on Debug"
+            android:key="@string/pref_show_debug_key"
+            android:title="@string/pref_show_debug_title"
+            android:summary="@string/pref_show_debug_true"
+            android:summaryOff="@string/pref_show_debug_false"
+            android:defaultValue="@bool/pref_show_debug_default"
             />
     </PreferenceCategory>
 
     <PreferenceCategory
-        android:key="account_info_settings"
-        android:title="Mock Account Data">
+        android:key="@string/pref_category_account_key"
+        android:title="@string/pref_category_account_title">
 
         <EditTextPreference
-            android:key="user_name"
-            android:title="Account Name"
-            android:persistent="true"
-            android:dialogTitle="User Name"
-            android:dialogMessage="Enter name for account testing"
-            android:defaultValue="John Smith"
+            android:key="@string/pref_name_key"
+            android:title="@string/pref_name_title"
+            android:persistent="@bool/pref_persistent_name"
+            android:dialogTitle="@string/pref_name_title"
+            android:dialogMessage="@string/pref_name_dialog_message"
+            android:defaultValue="@string/pref_name_default"
 
             />
         <ListPreference
-            android:key="user_gender"
-            android:title="Gender"
-            android:persistent="true"
+            android:key="@string/pref_gender_key"
+            android:title="@string/pref_gender_title"
+            android:persistent="@bool/pref_persistent_gender"
             android:entries="@array/user_genders"
             android:entryValues="@array/user_gender_values"
-            android:dialogTitle="Gender"
-            android:defaultValue="0"
+            android:dialogTitle="@string/pref_gender_dialog_title"
+            android:defaultValue="@string/pref_gender_default_value"
             />
 
 

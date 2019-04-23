@@ -1,7 +1,9 @@
 package com.hemingwaywest.utiliserve;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.FloatingActionButton;
@@ -13,7 +15,8 @@ import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity
+        implements SharedPreferences.OnSharedPreferenceChangeListener {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,8 +30,33 @@ public class MainActivity extends AppCompatActivity {
 
         //show fragment container on launch with Form Fragment
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new FormFragment()).commit();
+
+        setupSharedPreferences();
+
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        //Turn off the listener
+        PreferenceManager.getDefaultSharedPreferences(this).unregisterOnSharedPreferenceChangeListener(this);
+    }
+
+    /**
+     * Setup the settings preferences calls
+     */
+    private void setupSharedPreferences(){
+        //TODO: Get more Items from preferences file
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        //Can attach the listener to "this" since the class implements SharedPreferences.OnSharedPreferenceChangeListener
+        sharedPreferences.registerOnSharedPreferenceChangeListener(this);
+        Boolean debug = sharedPreferences.getBoolean((getString(R.string.pref_show_debug_key)),
+                getResources().getBoolean(R.bool.pref_show_debug_default));
+    }
+
+
+
+    //Controls bottom navigation
     private BottomNavigationView.OnNavigationItemSelectedListener navListener =
             new BottomNavigationView.OnNavigationItemSelectedListener() {
                 @Override
@@ -54,6 +82,7 @@ public class MainActivity extends AppCompatActivity {
                 }
             };
 
+    //Controls / creates top menu
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -76,5 +105,14 @@ public class MainActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    //Listener that updates View on preference change.
+    @Override
+    public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+        //TODO Add preferences changes to here instead of OnCreate
+        if (key.equals(getString(R.string.pref_show_debug_key))){
+            //Change to debug pull
+        }
     }
 }
