@@ -34,7 +34,15 @@
     <string name="pref_gender_key" translatable="false">user_gender</string>
     <string name="pref_gender_title">Gender</string>
     <string name="pref_gender_dialog_title">Gender</string>
-    <string name="pref_gender_default_value">1</string>
+    <string name="pref_gender_default_value">Test</string>
+    <!-- Label for Gender Array -->
+    <string name="pref_gender_male_label">Male</string>
+    <string name="pref_gender_female_label">Female</string>
+    <string name="pref_gender_other_label">Prefer not to say</string>
+    <!-- Value for Gender Array -->
+    <string name="pref_gender_male_value">0</string>
+    <string name="pref_gender_female_value">1</string>
+    <string name="pref_gender_other_value">2</string>
 
 
 

@@ -3,11 +3,15 @@ package com.hemingwaywest.utiliserve;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v14.preference.PreferenceFragment;
+import android.support.v14.preference.SwitchPreference;
 import android.support.v7.preference.CheckBoxPreference;
+import android.support.v7.preference.EditTextPreference;
 import android.support.v7.preference.ListPreference;
 import android.support.v7.preference.Preference;
+import android.support.v7.preference.PreferenceCategory;
 import android.support.v7.preference.PreferenceFragmentCompat;
 import android.support.v7.preference.PreferenceScreen;
+import android.util.Log;
 
 import com.hemingwaywest.utiliserve.R;
 
@@ -31,13 +35,33 @@ public class SettingsFragment extends PreferenceFragmentCompat
         PreferenceScreen prefScreen = getPreferenceScreen();
         int count = prefScreen.getPreferenceCount();
 
+        //Loop through categories
         for (int i = 0; i < count; i++) {
-            Preference p = prefScreen.getPreference(i);
-            //Checkbox is set via an xml attribute
+            //Preference p = prefScreen.getPreference(i);
+            //Get the preference parent categories
+            PreferenceCategory pc = (PreferenceCategory) prefScreen.getPreference(i);
+            //Get preferences in the categories
+            int categoryCount = pc.getPreferenceCount();
+            Log.d("Preferences", "CategoryCount: " + categoryCount);
+            for (int j = 0; j < categoryCount; j++) {
+                Preference p = pc.getPreference(j);
+                //Checkbox is set via an xml attribute
+                //TODO Add preferences here that can't have default value because it's in xml
+                if(!(p instanceof CheckBoxPreference || p instanceof SwitchPreference)){
+                    String value = sharedPreferences.getString(p.getKey(), "");
+                    setPreferenceSummary(p, value);
+                    Log.d("Preferences", "P: " + p + " Value: " + value);
+                }
+            }
+
+
+
+           /* //Checkbox is set via an xml attribute
             if(!(p instanceof CheckBoxPreference)){
                 String value = sharedPreferences.getString(p.getKey(), "");
                 setPreferenceSummary(p, value);
-            }
+                Log.d("Preferences", "P: " + p + " Value: " + value);
+            }*/
         }
     }
 
@@ -45,12 +69,16 @@ public class SettingsFragment extends PreferenceFragmentCompat
     //TODO Doesn't update the summary on launch, only update.  UD: 6-23
     private void setPreferenceSummary(Preference preference, String value){
         if (preference instanceof ListPreference){
+            //For list preferences, figure out the label of the selected value
             ListPreference listPreference = (ListPreference) preference;
             int prefIndex = listPreference.findIndexOfValue(value);
             //Check if not null, then get Label associated with ^value
             if (prefIndex >= 0){
                 listPreference.setSummary(listPreference.getEntries()[prefIndex]);
+
             }
+        }else  if ( preference instanceof EditTextPreference){
+            preference.setSummary(value);
         }
     }
 

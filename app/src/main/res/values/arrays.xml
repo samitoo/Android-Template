@@ -5,15 +5,15 @@
     <!-- Preferences Values -->
     <!-- ****************** -->
     <!-- Gender Values for Preferences -->
-    <string-array name="user_genders">
-        <item>Male</item>
-        <item>Female</item>
-        <item>Prefer not to say</item>
+    <string-array name="user_gender_option_labels">
+        <item>@string/pref_gender_male_label</item>
+        <item>@string/pref_gender_female_label</item>
+        <item>@string/pref_gender_other_label</item>
     </string-array>
-    <string-array name="user_gender_values">
-        <item>0</item>
-        <item>1</item>
-        <item>2</item>
+    <string-array name="user_gender_option_values">
+        <item>@string/pref_gender_male_label</item>
+        <item>@string/pref_gender_female_label</item>
+        <item>@string/pref_gender_other_label</item>
     </string-array>
 
 </resources>

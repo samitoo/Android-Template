@@ -10,6 +10,7 @@
             android:summary="Show Testing Notifications"
             android:summaryOff="Don't Show Testing Notifications"
             android:defaultValue="@bool/pref_show_notification_default"
+            android:dependency="@string/pref_category_notifications_key"
             />
     </PreferenceCategory>
 
@@ -23,6 +24,7 @@
             android:summary="@string/pref_show_debug_true"
             android:summaryOff="@string/pref_show_debug_false"
             android:defaultValue="@bool/pref_show_debug_default"
+            android:dependency="@string/pref_category_dev_key"
             />
     </PreferenceCategory>
 
@@ -33,20 +35,20 @@
         <EditTextPreference
             android:key="@string/pref_name_key"
             android:title="@string/pref_name_title"
-            android:persistent="@bool/pref_persistent_name"
             android:dialogTitle="@string/pref_name_title"
             android:dialogMessage="@string/pref_name_dialog_message"
             android:defaultValue="@string/pref_name_default"
+            android:dependency="@string/pref_category_account_key"
 
             />
         <ListPreference
+            android:defaultValue="@string/pref_gender_male_label"
             android:key="@string/pref_gender_key"
             android:title="@string/pref_gender_title"
-            android:persistent="@bool/pref_persistent_gender"
-            android:entries="@array/user_genders"
-            android:entryValues="@array/user_gender_values"
+            android:entries="@array/user_gender_option_labels"
+            android:entryValues="@array/user_gender_option_values"
             android:dialogTitle="@string/pref_gender_dialog_title"
-            android:defaultValue="@string/pref_gender_default_value"
+            android:dependency="@string/pref_category_account_key"
             />
 
 
