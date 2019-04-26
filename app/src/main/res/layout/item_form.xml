@@ -4,7 +4,11 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:padding="5dp"
-    android:background="@android:color/holo_green_light">
+    android:background="@android:color/holo_green_light"
+    android:divider="@drawable/separator"
+    android:showDividers="end"
+    >
+
 
     <!-- Row Icon / Image -->
     <ImageView
@@ -56,4 +60,6 @@
     </LinearLayout>
 
 
+
 </LinearLayout>
+

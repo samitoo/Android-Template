@@ -66,7 +66,7 @@ public class SettingsFragment extends PreferenceFragmentCompat
     }
 
     //To update the preference summaries on change
-    //TODO Doesn't update the summary on launch, only update.  UD: 6-23
+    //TODO Check / validate data before saving UD: 6-28
     private void setPreferenceSummary(Preference preference, String value){
         if (preference instanceof ListPreference){
             //For list preferences, figure out the label of the selected value
