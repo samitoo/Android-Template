@@ -7,6 +7,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +15,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.hemingwaywest.utiliserve.Models.FormListItem;
+import com.hemingwaywest.utiliserve.Utilities.JsonUtils;
 import com.hemingwaywest.utiliserve.Utilities.RecyclerViewAdapter;
 
 import org.json.JSONArray;
@@ -39,8 +41,9 @@ public class FormFragment extends Fragment {
 
     View formView;
     private RecyclerView myRecyclerView;
-    private List<FormListItem> mData;
+    //private List<FormListItem> mData;
     private JSONArray mJSONarray;
+    private RecyclerViewAdapter mRecycleAdapter;
 
     //Loading and Errors
     private TextView mErrorMessageDisplay;
@@ -57,11 +60,21 @@ public class FormFragment extends Fragment {
         mErrorMessageDisplay = (TextView)formView.findViewById(R.id.tv_error_message_display);
         mLoadingBar = (ProgressBar)formView.findViewById(R.id.pb_loading_indicator);
 
-        //Pass data to the adapter
-        RecyclerViewAdapter recycleAdapter = new RecyclerViewAdapter(getContext(), mData);
+        //Pass data to the adapter MOVED TO ASYNC
+        /*RecyclerViewAdapter recycleAdapter = new RecyclerViewAdapter(getContext(), mData);
         myRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        myRecyclerView.setAdapter(recycleAdapter);
-        return null;
+        myRecyclerView.setAdapter(recycleAdapter);*/
+
+        mRecycleAdapter = new RecyclerViewAdapter();
+        myRecyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
+        myRecyclerView.setAdapter(mRecycleAdapter);
+
+
+        loadFormData();
+
+        //return super.onCreateView(inflater, container, savedInstanceState);
+        //return inflater.inflate(R.layout.fragment_forms, container, false);
+        return formView;
     }
 
     //region PRIVATE HELPER METHODS
@@ -76,6 +89,10 @@ public class FormFragment extends Fragment {
     //endregion
 
     //region JSON METHODS
+    private void loadFormData(){
+        showFormViews();
+        new FetchFormTask().execute();
+    }
     private String loadJSONFromAsset(){
         String json = null;
         try{
@@ -87,6 +104,7 @@ public class FormFragment extends Fragment {
             is.close();
             json = new String(buffer, "UTF-8");
         }catch (IOException ex){
+            ex.printStackTrace();
             return null;
         }
 
@@ -102,18 +120,18 @@ public class FormFragment extends Fragment {
     }
 
 
-    private void LoadDataFromJSON(){
+    /*private void LoadDataFromJSON(){
         getJSONobj();
         //TODO: Put JSON data into array format
         RecyclerViewAdapter rvAdapter = new RecyclerViewAdapter(formView.getContext(), mData);
         myRecyclerView.setAdapter(rvAdapter);
-    }
+    }*/
 
     //endregion
 
     /**
      * Private inner class to start the background thread activity
-     * TODO Check to see if in debug mode or live mode from preferneces
+     * TODO Check to see if in debug mode or live mode from preferences
      */
     public class FetchFormTask extends AsyncTask<String, Void, String[]> {
 
@@ -126,29 +144,30 @@ public class FormFragment extends Fragment {
         @Override
         protected String[] doInBackground(String... params) {
             //If there's no data pulled, dip out
-            if (params.length ==0){
+            //TODO Use this to pull data from preferences
+            /*if (params.length ==0){
                 return null;
-            }
+            }*/
 
-            //Get params in order from JSON helper, params[0] etc
-            String forms = params[0];
+            //TODO Add url request logic here
 
             try{
                 //stuff
+                String jsonFormResponse = loadJSONFromAsset();
+                String[] simpleFormListJson = JsonUtils.getArrayDataFromFormsJson(formView.getContext(), jsonFormResponse);
+                return  simpleFormListJson;
             }catch (Exception e){
                 e.printStackTrace();
                 return null;
             }
-
-            return null;
         }
 
         @Override
-        protected void onPostExecute(String[] strings) {
-            super.onPostExecute(strings);
+        protected void onPostExecute(String[] formListData) {
             mLoadingBar.setVisibility(View.INVISIBLE);
-            if (mData != null){
+            if (formListData != null){
                 showFormViews();
+
             }
             else{
                 showErrorMessage();

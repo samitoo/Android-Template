@@ -26,11 +26,34 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
     //Require a view holder, a context, and data
     Context mContext;
-    List<FormListItem> mFormData;
+    //List<FormListItem> mFormData;
+    private String[][] mFormData;
 
-    public RecyclerViewAdapter(Context mContext, List<FormListItem> mData) {
+    /*public RecyclerViewAdapter(Context mContext, List<FormListItem> mData) {
         this.mContext = mContext;
         this.mFormData = mData;
+    }*/
+    //Default constructor for now, using set method for now
+    public RecyclerViewAdapter(){
+
+    }
+
+    /**
+     * Recycler view needs a viewholder class
+     * This bind the data to the layout for the list item
+     */
+    public class MyViewHolder extends RecyclerView.ViewHolder{
+
+        public final TextView tv_formName;
+        public final TextView tv_formDetails;
+
+        public MyViewHolder(View itemView) {
+            super(itemView);
+
+            tv_formName = (TextView)itemView.findViewById(R.id.form_title);
+            tv_formDetails = (TextView)itemView.findViewById(R.id.form_details);
+
+        }
     }
 
     /**
@@ -43,51 +66,48 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
      */
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
-        View v;
-        v = LayoutInflater.from(mContext).inflate(R.layout.item_form,viewGroup,false);
-        MyViewHolder vHolder = new MyViewHolder(v);
+        Context context = viewGroup.getContext();
+        int layoutIdForListItem = R.layout.item_form;
+        LayoutInflater inflater = LayoutInflater.from(context);
+        boolean shouldAttachToParentImmediately = false;
 
-        return vHolder;
+        View v = inflater.inflate(layoutIdForListItem, viewGroup, shouldAttachToParentImmediately);
+        //v = LayoutInflater.from(mContext).inflate(R.layout.item_form,viewGroup,false);
+        //MyViewHolder vHolder = new MyViewHolder(v);
+
+        return new MyViewHolder(v);
     }
 
     @Override
     /**
      * Fetch Data from Model
      */
-    public void onBindViewHolder(@NonNull MyViewHolder myViewHolder, int position) {
-        myViewHolder.tv_formName.setText(mFormData.get(position).getFormTitle());
-        myViewHolder.tv_formDetails.setText(mFormData.get(position).getFormDetails());
+    public void onBindViewHolder(MyViewHolder myViewHolder, int position) {
+        // myViewHolder.tv_formName.setText(mFormData.get(position).getFormTitle());
+        // myViewHolder.tv_formDetails.setText(mFormData.get(position).getFormDetails());
+
+        String[] itemEntry = mFormData[position];
+        String itemFormName = itemEntry[0];
+        String itemFormDetails = itemEntry[1];
+
+        myViewHolder.tv_formName.setText(itemFormName);
+        myViewHolder.tv_formDetails.setText(itemFormDetails);
+
 
     }
 
     @Override
     public int getItemCount() {
         if (null == mFormData) return 0;
-        return mFormData.size();
+        return mFormData.length;
     }
 
-    public void setFormData (List<FormListItem> formData){
+    public void setFormData (String[][] formData){
         mFormData = formData;
         notifyDataSetChanged();
     }
 
 
-    /**
-     * Recycler view needs a viewholder class
-     * This bind the data to the layout for the list item
-     */
-    public static class MyViewHolder extends RecyclerView.ViewHolder{
 
-        private TextView tv_formName;
-        private TextView tv_formDetails;
-
-        public MyViewHolder(@NonNull View itemView) {
-            super(itemView);
-
-            tv_formName = (TextView)itemView.findViewById(R.id.form_title);
-            tv_formDetails = (TextView)itemView.findViewById(R.id.form_details);
-
-        }
-    }
 
 }
