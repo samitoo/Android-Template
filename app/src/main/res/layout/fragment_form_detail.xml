@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_margin="20dp"
+    android:orientation="vertical"
+    >
+
+    <TextView
+        android:id="@+id/tv_form_number"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:textSize="30sp"
+        android:text="Form Number" />
+
+    <EditText
+        android:id="@+id/et_form_number"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:hint="Form Number"
+        android:textSize="20sp"
+        android:focusable="false"/>
+
+    <View style="@style/DividerBlue"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="40sp"
+        android:textSize="30sp"
+        android:text="Classification"/>
+
+    <RadioGroup
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_gravity="center_vertical">
+
+        <RadioButton
+            android:id="@+id/r_commercial"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="Commercial"
+            android:textSize="18sp"/>
+        <RadioButton
+            android:id="@+id/r_mutliFamily"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="Multi-Family"
+            android:textSize="18sp"/>
+        <RadioButton
+            android:id="@+id/r_residential"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="Residential"
+            android:textSize="18sp"/>
+        <RadioButton
+            android:id="@+id/r_rural"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="Rural"
+            android:textSize="18sp"/>
+    </RadioGroup>
+
+    <View style="@style/DividerBlue"/>
+
+    <TextView
+        android:id="@+id/tv_form_details"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:textSize="30sp"
+        android:text="Form Details" />
+    
+    <EditText
+        android:id="@+id/et_form_details"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Form Details. . . ."
+        android:focusable="false"/>
+
+
+
+
+</LinearLayout>

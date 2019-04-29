@@ -1,10 +1,15 @@
 package com.hemingwaywest.utiliserve;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -14,17 +19,21 @@ import android.view.ViewGroup;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.hemingwaywest.utiliserve.Models.FormListItem;
+import com.hemingwaywest.utiliserve.Utilities.AppExecutors;
+import com.hemingwaywest.utiliserve.Utilities.FormListRecycleAdapter;
 import com.hemingwaywest.utiliserve.Utilities.JsonUtils;
-import com.hemingwaywest.utiliserve.Utilities.RecyclerViewAdapter;
+import com.hemingwaywest.utiliserve.database.AppDatabase;
+import com.hemingwaywest.utiliserve.database.FormListEntry;
 
 import org.json.JSONArray;
 import org.json.JSONException;
-import org.w3c.dom.Text;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
+import android.support.v7.widget.Toolbar;
+import java.util.concurrent.Executors;
+
 
 /**
  * Project: utiliserve
@@ -37,17 +46,24 @@ import java.util.List;
  * to the recycler view.
  * Contains an inner class to run the Async Task of populating the view
  */
-public class FormFragment extends Fragment {
+public class FormFragment extends Fragment implements FormListRecycleAdapter.ItemClickListener {
 
+    private static final String TAG = FormFragment.class.getSimpleName();
+    private static final String TOOLBAR_TITLE = "Utiliserve";
     View formView;
     private RecyclerView myRecyclerView;
-    //private List<FormListItem> mData;
     private JSONArray mJSONarray;
-    private RecyclerViewAdapter mRecycleAdapter;
+    private FormListRecycleAdapter mRecycleAdapter;
+    private DividerItemDecoration decoration;
 
     //Loading and Errors
     private TextView mErrorMessageDisplay;
     private ProgressBar mLoadingBar;
+
+    //DB
+    private AppDatabase mDb;
+
+
 
     @Nullable
     @Override
@@ -61,15 +77,21 @@ public class FormFragment extends Fragment {
         mLoadingBar = (ProgressBar)formView.findViewById(R.id.pb_loading_indicator);
 
         //Pass data to the adapter MOVED TO ASYNC
-        /*RecyclerViewAdapter recycleAdapter = new RecyclerViewAdapter(getContext(), mData);
+        /*FormListRecycleAdapter recycleAdapter = new FormListRecycleAdapter(getContext(), mData);
         myRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         myRecyclerView.setAdapter(recycleAdapter);*/
 
-        mRecycleAdapter = new RecyclerViewAdapter();
+        mRecycleAdapter = new FormListRecycleAdapter(getContext(), this);
+        decoration = new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL);
+        myRecyclerView.addItemDecoration(decoration);
         myRecyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
         myRecyclerView.setAdapter(mRecycleAdapter);
 
+        Toolbar toolbar = getActivity().findViewById(R.id.toolbar);
+        toolbar.setTitle(TOOLBAR_TITLE);
+        toolbar.setNavigationIcon(null);
 
+        mDb = AppDatabase.getInstance(getContext());
         loadFormData();
 
         //return super.onCreateView(inflater, container, savedInstanceState);
@@ -86,13 +108,57 @@ public class FormFragment extends Fragment {
         myRecyclerView.setVisibility(View.INVISIBLE);
         mErrorMessageDisplay.setVisibility(View.VISIBLE);
     }
-    //endregion
-
-    //region JSON METHODS
     private void loadFormData(){
         showFormViews();
-        new FetchFormTask().execute();
+        retrieveForms();
+        //new FetchFormTask().execute();
     }
+
+    private void retrieveForms() {
+        Log.d(TAG, "Retrieving data from DB");
+        AppExecutors.getInstance().diskIO().execute(new Runnable() {
+            @Override
+            public void run() {
+                final List<FormListEntry> forms = mDb.formDao().loadAllForms();
+                //TODO simplify with architecture later
+                getActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        mRecycleAdapter.setFormData(forms);
+                    }
+                });
+            }
+        });
+    }
+
+    //endregion
+    public void onClick(){
+
+    }
+
+    @Override
+    public void onItemClickListener(int itemId) {
+        //TODO Launch the detail view with the itemID as an extra in the intent
+        FragmentManager fragmentManager = getFragmentManager();
+        FragmentTransaction transaction = fragmentManager.beginTransaction();
+        transaction.replace(R.id.fragment_container, new FormDetailFragment());
+        transaction.addToBackStack("fragmentDetail");
+        transaction.commit();
+
+        //getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, selectedFragment).commit();
+
+
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        //This way we refresh the DB on all resumes, not just loads.
+        retrieveForms();
+
+    }
+
+    //region JSON METHODS
     private String loadJSONFromAsset(){
         String json = null;
         try{
@@ -123,7 +189,7 @@ public class FormFragment extends Fragment {
     /*private void LoadDataFromJSON(){
         getJSONobj();
         //TODO: Put JSON data into array format
-        RecyclerViewAdapter rvAdapter = new RecyclerViewAdapter(formView.getContext(), mData);
+        FormListRecycleAdapter rvAdapter = new FormListRecycleAdapter(formView.getContext(), mData);
         myRecyclerView.setAdapter(rvAdapter);
     }*/
 
@@ -133,7 +199,7 @@ public class FormFragment extends Fragment {
      * Private inner class to start the background thread activity
      * TODO Check to see if in debug mode or live mode from preferences
      */
-    public class FetchFormTask extends AsyncTask<String, Void, String[]> {
+   /* public class FetchFormTask extends AsyncTask<String, Void, String[]> {
 
         @Override
         protected void onPreExecute() {
@@ -145,9 +211,9 @@ public class FormFragment extends Fragment {
         protected String[] doInBackground(String... params) {
             //If there's no data pulled, dip out
             //TODO Use this to pull data from preferences
-            /*if (params.length ==0){
-                return null;
-            }*/
+            //if (params.length ==0){
+            //    return null;
+            //}
 
             //TODO Add url request logic here
 
@@ -173,5 +239,5 @@ public class FormFragment extends Fragment {
                 showErrorMessage();
             }
         }
-    }
+    } */
 }

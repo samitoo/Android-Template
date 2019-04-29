@@ -8,6 +8,17 @@
         android:layout_height="wrap_content"
         android:text="Queue Fragment"
         android:textSize="30sp"
-        android:layout_centerInParent="true"/>
+        android:layout_centerInParent="true"
+        android:layout_alignParentTop="true"
+        />
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/queue_recyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="visible"
+        />
+
+
 
 </RelativeLayout>
