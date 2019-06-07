@@ -1,6 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!-- Values based on 1-5 RGB sheet-->
 <resources>
-    <color name="colorPrimary">#008577</color>
-    <color name="colorPrimaryDark">#00574B</color>
+    <color name="colorPrimary">#4d648d</color>
+    <color name="colorPrimaryDark">#283655</color>
     <color name="colorAccent">#D81B60</color>
+
+    <color name="colorOne">#ffffff</color>
+    <color name="colorTwo">#d0e1f9</color>
+    <color name="colorThree">#4d648d</color>
+    <color name="colorFour">#283655</color>
+    <color name="colorFive">#1e1f26</color>
 </resources>
