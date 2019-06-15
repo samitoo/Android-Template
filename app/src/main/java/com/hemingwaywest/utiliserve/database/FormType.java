@@ -3,6 +3,7 @@ package com.hemingwaywest.utiliserve.database;
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.ForeignKey;
 import android.arch.persistence.room.Ignore;
+import android.arch.persistence.room.Index;
 import android.arch.persistence.room.PrimaryKey;
 
 /**
@@ -13,7 +14,7 @@ import android.arch.persistence.room.PrimaryKey;
  * url: www.HemingwayWest.com
  * Notes:
  */
-@Entity(tableName = "form_type", foreignKeys = @ForeignKey(entity = Forms.class,
+@Entity(indices = {@Index("form_id")},tableName = "form_type", foreignKeys = @ForeignKey(entity = Forms.class,
                                                             parentColumns = "id",
                                                             childColumns = "form_id"))
 public class FormType {
@@ -21,20 +22,28 @@ public class FormType {
     @PrimaryKey(autoGenerate = true)
     private int id;
     private int form_id;
-    private String mName;
+    private String name;
 
     @Ignore
-    public FormType(String name){
-        mName = name;
+    public FormType(int form_id, String name){
+        this.form_id = form_id;
+        this.name = name;
     }
 
-    public FormType(int id, String name){
+    public FormType(int id, int form_id, String name){
         this.id = id;
-        mName = name;
+        this.form_id = form_id;
+        this.name = name;
     }
 
 
-    public String getmName() {return mName;}
+    //Getters
+    public int getId(){return id;}
+    public int getForm_id(){return form_id;}
+    public String getName() {return name;}
 
-    public void setmName(String mName) {this.mName = mName;}
+    //Setters
+    public void setId(int id){this.id = id;}
+    public void setForm_id(int parentID){this.form_id = parentID;}
+    public void setName(String name) {this.name = name;}
 }

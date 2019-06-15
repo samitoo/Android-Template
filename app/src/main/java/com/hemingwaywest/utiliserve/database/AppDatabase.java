@@ -10,7 +10,7 @@ import android.util.Log;
 
 import java.util.concurrent.Executors;
 
-@Database(entities = {FormListEntry.class}, version = 1, exportSchema = false)
+@Database(entities = {FormListEntry.class, Forms.class, FormField.class, FormType.class}, version = 1, exportSchema = false)
 public abstract class AppDatabase extends RoomDatabase {
 
     private static final String LOG_TAG = AppDatabase.class.getSimpleName();

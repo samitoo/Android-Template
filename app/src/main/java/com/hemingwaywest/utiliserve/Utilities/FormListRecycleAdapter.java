@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import com.hemingwaywest.utiliserve.R;
 import com.hemingwaywest.utiliserve.database.FormListEntry;
+import com.hemingwaywest.utiliserve.database.Forms;
 
 import java.util.List;
 
@@ -25,7 +26,7 @@ import java.util.List;
 public class FormListRecycleAdapter extends RecyclerView.Adapter<FormListRecycleAdapter.MyViewHolder> {
 
     private Context mContext;
-    private List<FormListEntry> mFormEntries;
+    private List<Forms> mFormEntries;
     final private ItemClickListener mItemClickListener;
 
 
@@ -66,13 +67,13 @@ public class FormListRecycleAdapter extends RecyclerView.Adapter<FormListRecycle
     public void onBindViewHolder(MyViewHolder myViewHolder, int position) {
 
         //Get the Data from a cursor
-        FormListEntry formEntry = mFormEntries.get(position);
-        String title = formEntry.getFormTitle();
-        String description = formEntry.getFormDetails();
+        Forms formEntry = mFormEntries.get(position);
+        //String title = formEntry.getFormTitle();
+        //String description = formEntry.getFormDetails();
 
         //Set the values
-        myViewHolder.tv_formName.setText(title);
-        myViewHolder.tv_formDetails.setText(description);
+       // myViewHolder.tv_formName.setText(title);
+        //myViewHolder.tv_formDetails.setText(description);
 
 
     }
@@ -83,12 +84,12 @@ public class FormListRecycleAdapter extends RecyclerView.Adapter<FormListRecycle
         return mFormEntries.size();
     }
 
-    public void setFormData (List<FormListEntry> formData){
+    public void setFormData (List<Forms> formData){
         mFormEntries = formData;
         notifyDataSetChanged();
     }
 
-    public List<FormListEntry> getmFormEntries(){
+    public List<Forms> getmFormEntries(){
         return mFormEntries;
     }
 

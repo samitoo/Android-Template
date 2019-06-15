@@ -18,24 +18,26 @@ public class Forms {
 
     @PrimaryKey(autoGenerate = true)
     private int id;
-    private String mFormType;
+    private String formType;
 
     @Ignore
     //Constructor for new, generates ID
     public Forms(String formType){
-        mFormType = formType;
+        this.formType = formType;
     }
 
     //Constructor; when reading, will already have an ID
     public Forms(int id, String formType){
         this.id = id;
-        mFormType = formType;
+        this.formType = formType;
     }
 
 
-    public String getmFormType() {return mFormType;}
+    public int getId(){return id;}
+    public String getFormType() {return formType;}
 
-    public void setmFormType(String mFormType) {this.mFormType = mFormType;}
+    public void setId(){this.id = id;}
+    public void setFormType(String formType) {this.formType = formType;}
 
 
 

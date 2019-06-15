@@ -1,5 +1,6 @@
 package com.hemingwaywest.utiliserve.database;
 
+import android.arch.lifecycle.LiveData;
 import android.arch.persistence.room.Dao;
 import android.arch.persistence.room.Delete;
 import android.arch.persistence.room.Insert;
@@ -22,7 +23,7 @@ import java.util.List;
 public interface FormsDao {
 
     @Query("SELECT * FROM forms")
-    List<Forms> getAll();
+    LiveData<List<Forms>> getAll();
 
     @Insert
     void insertForm(Forms form);

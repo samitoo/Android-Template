@@ -1,8 +1,7 @@
 package com.hemingwaywest.utiliserve;
 
-import android.content.Intent;
-import android.net.Uri;
-import android.os.AsyncTask;
+import android.arch.lifecycle.Observer;
+import android.arch.lifecycle.ViewModelProviders;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -19,20 +18,15 @@ import android.view.ViewGroup;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.hemingwaywest.utiliserve.Models.FormsViewModel;
 import com.hemingwaywest.utiliserve.Utilities.AppExecutors;
 import com.hemingwaywest.utiliserve.Utilities.FormListRecycleAdapter;
-import com.hemingwaywest.utiliserve.Utilities.JsonUtils;
 import com.hemingwaywest.utiliserve.database.AppDatabase;
 import com.hemingwaywest.utiliserve.database.FormListEntry;
+import com.hemingwaywest.utiliserve.database.Forms;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-
-import java.io.IOException;
-import java.io.InputStream;
 import java.util.List;
 import android.support.v7.widget.Toolbar;
-import java.util.concurrent.Executors;
 
 
 /**
@@ -52,7 +46,6 @@ public class FormFragment extends Fragment implements FormListRecycleAdapter.Ite
     private static final String TOOLBAR_TITLE = "Utiliserve";
     View formView;
     private RecyclerView myRecyclerView;
-    private JSONArray mJSONarray;
     private FormListRecycleAdapter mRecycleAdapter;
     private DividerItemDecoration decoration;
 
@@ -70,27 +63,7 @@ public class FormFragment extends Fragment implements FormListRecycleAdapter.Ite
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         //return super.onCreateView(inflater, container, savedInstanceState);
         formView = inflater.inflate(R.layout.fragment_forms, container, false);
-
-        //Find all variables in xml
-        myRecyclerView = (RecyclerView)formView.findViewById(R.id.form_recyclerView);
-        mErrorMessageDisplay = (TextView)formView.findViewById(R.id.tv_error_message_display);
-        mLoadingBar = (ProgressBar)formView.findViewById(R.id.pb_loading_indicator);
-
-        //Pass data to the adapter MOVED TO ASYNC
-        /*FormListRecycleAdapter recycleAdapter = new FormListRecycleAdapter(getContext(), mData);
-        myRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        myRecyclerView.setAdapter(recycleAdapter);*/
-
-        mRecycleAdapter = new FormListRecycleAdapter(getContext(), this);
-        decoration = new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL);
-        myRecyclerView.addItemDecoration(decoration);
-        myRecyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
-        myRecyclerView.setAdapter(mRecycleAdapter);
-
-        Toolbar toolbar = getActivity().findViewById(R.id.toolbar);
-        toolbar.setTitle(TOOLBAR_TITLE);
-        toolbar.setNavigationIcon(null);
-
+        initViews();
         mDb = AppDatabase.getInstance(getContext());
         loadFormData();
 
@@ -100,6 +73,38 @@ public class FormFragment extends Fragment implements FormListRecycleAdapter.Ite
     }
 
     //region PRIVATE HELPER METHODS
+    private void initViews() {
+        //Find all variables in xml
+        myRecyclerView = (RecyclerView)formView.findViewById(R.id.form_recyclerView);
+        mErrorMessageDisplay = (TextView)formView.findViewById(R.id.tv_error_message_display);
+        mLoadingBar = (ProgressBar)formView.findViewById(R.id.pb_loading_indicator);
+
+        //Setup adapter
+        mRecycleAdapter = new FormListRecycleAdapter(getContext(), this);
+        decoration = new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL);
+        myRecyclerView.addItemDecoration(decoration);
+        myRecyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
+        myRecyclerView.setAdapter(mRecycleAdapter);
+
+        //Setup Toolbar
+        Toolbar toolbar = getActivity().findViewById(R.id.toolbar);
+        toolbar.setTitle(TOOLBAR_TITLE);
+        toolbar.setNavigationIcon(null);
+    }
+
+    //Setup the view model so that live data can auto refresh from the DB
+    private void setupViewModel(){
+        FormsViewModel viewModel = ViewModelProviders.of(this).get(FormsViewModel.class);
+        viewModel.getListOfForms().observe(this, new Observer<List<Forms>>() {
+            @Override
+            public void onChanged(@Nullable List<Forms> forms) {
+                Log.d(TAG, "Updating list of forms from Livedata in FormViewModel");
+                mRecycleAdapter.setFormData(forms);
+            }
+        });
+
+    }
+
     private void showFormViews(){
         mErrorMessageDisplay.setVisibility(View.INVISIBLE);
         myRecyclerView.setVisibility(View.VISIBLE);
@@ -110,11 +115,12 @@ public class FormFragment extends Fragment implements FormListRecycleAdapter.Ite
     }
     private void loadFormData(){
         showFormViews();
-        retrieveForms();
+        setupViewModel();
+        //retrieveForms();
         //new FetchFormTask().execute();
     }
 
-    private void retrieveForms() {
+   /* private void retrieveForms() {
         Log.d(TAG, "Retrieving data from DB");
         AppExecutors.getInstance().diskIO().execute(new Runnable() {
             @Override
@@ -129,12 +135,9 @@ public class FormFragment extends Fragment implements FormListRecycleAdapter.Ite
                 });
             }
         });
-    }
+    } */
 
     //endregion
-    public void onClick(){
-
-    }
 
     @Override
     public void onItemClickListener(int itemId) {
@@ -145,99 +148,15 @@ public class FormFragment extends Fragment implements FormListRecycleAdapter.Ite
         transaction.addToBackStack("fragmentDetail");
         transaction.commit();
 
-        //getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, selectedFragment).commit();
-
-
     }
 
     @Override
     public void onResume() {
         super.onResume();
         //This way we refresh the DB on all resumes, not just loads.
-        retrieveForms();
+        //retrieveForms();
 
     }
 
-    //region JSON METHODS
-    private String loadJSONFromAsset(){
-        String json = null;
-        try{
-            //Get assets requires context (so activities)
-            InputStream is = formView.getContext().getAssets().open("MOCK_DATA.json");
-            int size = is.available();
-            byte [] buffer = new byte[size];
-            is.read(buffer);
-            is.close();
-            json = new String(buffer, "UTF-8");
-        }catch (IOException ex){
-            ex.printStackTrace();
-            return null;
-        }
 
-        return json;
-    }
-
-    private void getJSONobj(){
-        try{
-            mJSONarray = new JSONArray(loadJSONFromAsset());
-        }catch (JSONException e){
-            e.printStackTrace();
-        }
-    }
-
-
-    /*private void LoadDataFromJSON(){
-        getJSONobj();
-        //TODO: Put JSON data into array format
-        FormListRecycleAdapter rvAdapter = new FormListRecycleAdapter(formView.getContext(), mData);
-        myRecyclerView.setAdapter(rvAdapter);
-    }*/
-
-    //endregion
-
-    /**
-     * Private inner class to start the background thread activity
-     * TODO Check to see if in debug mode or live mode from preferences
-     */
-   /* public class FetchFormTask extends AsyncTask<String, Void, String[]> {
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            mLoadingBar.setVisibility(View.VISIBLE);
-        }
-
-        @Override
-        protected String[] doInBackground(String... params) {
-            //If there's no data pulled, dip out
-            //TODO Use this to pull data from preferences
-            //if (params.length ==0){
-            //    return null;
-            //}
-
-            //TODO Add url request logic here
-
-            try{
-                //stuff
-                String jsonFormResponse = loadJSONFromAsset();
-                String[] simpleFormListJson = JsonUtils.getArrayDataFromFormsJson(formView.getContext(), jsonFormResponse);
-                return  simpleFormListJson;
-            }catch (Exception e){
-                e.printStackTrace();
-                return null;
-            }
-        }
-
-        @Override
-        protected void onPostExecute(String[] formListData) {
-            mLoadingBar.setVisibility(View.INVISIBLE);
-            if (formListData != null){
-                showFormViews();
-
-            }
-            else{
-                showErrorMessage();
-            }
-        }
-    } */
 }
