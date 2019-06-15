@@ -23,9 +23,11 @@ public abstract class AppDatabase extends RoomDatabase {
             synchronized (LOCK){
                 Log.d(LOG_TAG, "Creating a new database instance");
                 sInstance = buildDatabase(context);
-                sInstance = Room.databaseBuilder(context.getApplicationContext(),
+                //Loading fake data from method below
+                //TODO Move fake load to somewhere else
+                /*sInstance = Room.databaseBuilder(context.getApplicationContext(),
                         AppDatabase.class, AppDatabase.DATABASE_NAME)
-                        .build();
+                        .build();*/
             }
         }
         Log.d(LOG_TAG, "Getting the Database Instance");
@@ -33,11 +35,12 @@ public abstract class AppDatabase extends RoomDatabase {
     }
 
     //Table List
-    public abstract FormListDao formDao();
+    public abstract FormListDao formListDao();
     public abstract FormsDao formsDao();
     public abstract FormTypeDao formTypeDao();
     public abstract FormFieldDao formFieldDao();
 
+    //Using this to load a demo forms list
     private static AppDatabase buildDatabase(final Context context){
         return Room.databaseBuilder(context,
                 AppDatabase.class,
@@ -49,7 +52,7 @@ public abstract class AppDatabase extends RoomDatabase {
                         Executors.newSingleThreadScheduledExecutor().execute(new Runnable() {
                             @Override
                             public void run() {
-                                getInstance(context).formDao().insertAll(FormListEntry.populateData());
+                                getInstance(context).formsDao().insertAll(Forms.prepopulateFormsData());
                             }
                         });
                     }

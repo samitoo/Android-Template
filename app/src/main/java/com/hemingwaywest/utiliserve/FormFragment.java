@@ -142,6 +142,7 @@ public class FormFragment extends Fragment implements FormListRecycleAdapter.Ite
     @Override
     public void onItemClickListener(int itemId) {
         //TODO Launch the detail view with the itemID as an extra in the intent
+        //TODO use this to pick which detail view to load
         FragmentManager fragmentManager = getFragmentManager();
         FragmentTransaction transaction = fragmentManager.beginTransaction();
         transaction.replace(R.id.fragment_container, new FormDetailFragment());

@@ -68,11 +68,11 @@ public class FormListRecycleAdapter extends RecyclerView.Adapter<FormListRecycle
 
         //Get the Data from a cursor
         Forms formEntry = mFormEntries.get(position);
-        //String title = formEntry.getFormTitle();
+        String title = formEntry.getFormType();
         //String description = formEntry.getFormDetails();
 
         //Set the values
-       // myViewHolder.tv_formName.setText(title);
+        myViewHolder.tv_formName.setText(title);
         //myViewHolder.tv_formDetails.setText(description);
 
 

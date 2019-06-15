@@ -28,6 +28,9 @@ public interface FormsDao {
     @Insert
     void insertForm(Forms form);
 
+    @Insert
+    void insertAll(Forms ...forms);
+
     @Update(onConflict = OnConflictStrategy.REPLACE)
     void updateForm(Forms form);
 

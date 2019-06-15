@@ -40,5 +40,11 @@ public class Forms {
     public void setFormType(String formType) {this.formType = formType;}
 
 
+    public static Forms[] prepopulateFormsData(){
+        return new Forms[]{
+                new Forms("Hydrant Inspection"),
+                new Forms("Hydrant Inspection")
+        };
+    }
 
 }

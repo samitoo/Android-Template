@@ -22,7 +22,7 @@
     <style name="DividerBlue">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">5dp</item>
-        <item name="android:background">@android:color/holo_blue_bright</item>
+        <item name="android:background">@color/colorThree</item>
         <item name="android:layout_marginTop">20dp</item>
         <item name="android:layout_marginBottom">20dp</item>
     </style>

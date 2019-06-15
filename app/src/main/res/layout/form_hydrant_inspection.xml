@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_margin="20dp"
+    android:orientation="vertical"
+    >
+    <!-- Form Title -->
+    <TextView
+        android:id="@+id/tv_form_title"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:textSize="20sp"
+        android:text="Fire Hydrant Inspection Report"
+        android:gravity="center_horizontal"
+        />
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+            <!-- Data Entry -->
+            <TextView
+                android:id="@+id/tv_hydrantNumber"
+                android:layout_width="match_parent"
+                android:layout_height="40sp"
+                android:textSize="15sp"
+                android:text="Hydrant Number"
+                />
+            <EditText
+                android:id="@+id/et_hydrantNumber"
+                android:layout_width="match_parent"
+                android:layout_height="40sp"
+                android:textSize="15sp"
+                android:hint="Answer"
+                />
+            <View style="@style/DividerBlue"/>
+
+            <TextView
+                android:id="@+id/tv_hydrantAddress"
+                android:layout_width="match_parent"
+                android:layout_height="40sp"
+                android:textSize="15sp"
+                android:text="Hydrant Address"
+                />
+            <EditText
+                android:id="@+id/et_hydrantAddress"
+                android:layout_width="match_parent"
+                android:layout_height="40sp"
+                android:textSize="15sp"
+                android:hint="Answer"
+                />
+            <View style="@style/DividerBlue"/>
+
+            <TextView
+                android:id="@+id/tv_stationNo"
+                android:layout_width="match_parent"
+                android:layout_height="40sp"
+                android:textSize="15sp"
+                android:text="Station Number"
+                />
+            <EditText
+                android:id="@+id/et_stationNo"
+                android:layout_width="match_parent"
+                android:layout_height="40sp"
+                android:textSize="15sp"
+                android:hint="Answer"
+                />
+            <View style="@style/DividerBlue"/>
+            <TextView
+                android:id="@+id/tv_zipCode"
+                android:layout_width="match_parent"
+                android:layout_height="40sp"
+                android:textSize="15sp"
+                android:text="ZipCode"
+                />
+            <EditText
+                android:id="@+id/et_zipCode"
+                android:layout_width="match_parent"
+                android:layout_height="40sp"
+                android:textSize="15sp"
+                android:hint="Answer"
+                />
+            <View style="@style/DividerBlue"/>
+            <TextView
+                android:id="@+id/tv_hydrantSub"
+                android:layout_width="match_parent"
+                android:layout_height="40sp"
+                android:textSize="15sp"
+                android:text="Hydrant Subdivision"
+                />
+            <EditText
+                android:id="@+id/et_hydrantSub"
+                android:layout_width="match_parent"
+                android:layout_height="40sp"
+                android:textSize="15sp"
+                android:hint="Answer"
+                />
+            <View style="@style/DividerBlue"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="40sp"
+                android:textSize="15sp"
+                android:text="Classification"/>
+
+            <RadioGroup
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_gravity="center_vertical">
+
+                <RadioButton
+                    android:id="@+id/r_commercial"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Commercial"
+                    android:textSize="18sp"/>
+                <RadioButton
+                    android:id="@+id/r_mutliFamily"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Multi-Family"
+                    android:textSize="18sp"/>
+                <RadioButton
+                    android:id="@+id/r_residential"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Residential"
+                    android:textSize="18sp"/>
+                <RadioButton
+                    android:id="@+id/r_rural"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Rural"
+                    android:textSize="18sp"/>
+            </RadioGroup>
+
+            </LinearLayout>
+        </ScrollView>
+
+
+</LinearLayout>

@@ -23,9 +23,13 @@ import android.support.v7.widget.Toolbar;
  * url: www.HemingwayWest.com
  * Notes:
  */
+
+//TODO Form detail should be blank by default or updated based on db, modify to work like tasks
 public class FormDetailFragment extends Fragment {
 
     private static final String TAG = FormDetailFragment.class.getSimpleName();
+
+    private static String LAYOUT_TO_LOAD = "form_hydrant_inspection";
 
     private View formDetailView;
 
@@ -44,14 +48,15 @@ public class FormDetailFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         //return super.onCreateView(inflater, container, savedInstanceState);
-        formDetailView= inflater.inflate(R.layout.fragment_form_detail, container, false);
-        //Find all variables in XML
+        formDetailView= inflater.inflate(R.layout.form_hydrant_inspection, container, false);
+
+        /*//Find all variables in XML
         mFormNumber = formDetailView.findViewById(R.id.et_form_number);
         mRadioCommercial = formDetailView.findViewById(R.id.r_commercial);
         mRadioMultiFamily = formDetailView.findViewById(R.id.r_mutliFamily);
         mRadioResidential = formDetailView.findViewById(R.id.r_mutliFamily);
         mRadioRural = formDetailView.findViewById(R.id.r_rural);
-        mFormDetails = formDetailView.findViewById(R.id.et_form_details);
+        mFormDetails = formDetailView.findViewById(R.id.et_form_details);*/
 
 
         Toolbar toolbar = getActivity().findViewById(R.id.toolbar);
