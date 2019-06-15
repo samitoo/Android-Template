@@ -9,22 +9,27 @@ import android.arch.persistence.room.Update;
 
 import java.util.List;
 
+/**
+ * Project: Utiliserve
+ * HemingwayWest, LLC. Copyright (c) 2019  All rights reserved.
+ * User: Samitoo
+ * Date: 6/14/2019
+ * url: www.HemingwayWest.com
+ * Notes:
+ */
+
 @Dao
-public interface FormListDao {
+public interface FormsDao {
 
-    @Query("SELECT * FROM formsList")
-    List<FormListEntry> loadAllForms();
-
-    @Insert
-    void insertForm(FormListEntry formEntry);
+    @Query("SELECT * FROM forms")
+    List<Forms> getAll();
 
     @Insert
-    void insertAll(FormListEntry ...formEntries);
+    void insertForm(Forms form);
 
     @Update(onConflict = OnConflictStrategy.REPLACE)
-    void updateForm(FormListEntry formEntry);
+    void updateForm(Forms form);
 
     @Delete
-    void deleteForm(FormListEntry formEntry);
-
+    void deleteForm(Forms form);
 }

@@ -14,7 +14,7 @@ import android.arch.persistence.room.PrimaryKey;
  * Notes: Model for the Form layout on the recycler view.
  */
 
-@Entity(tableName = "forms")
+@Entity(tableName = "formsList")
 public class FormListEntry {
 
     @PrimaryKey(autoGenerate = true)
