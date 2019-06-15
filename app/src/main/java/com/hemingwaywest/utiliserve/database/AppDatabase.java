@@ -15,7 +15,7 @@ public abstract class AppDatabase extends RoomDatabase {
 
     private static final String LOG_TAG = AppDatabase.class.getSimpleName();
     private static final Object LOCK = new Object();
-    private static final String DATABASE_NAME = "formsList";
+    private static final String DATABASE_NAME = "UserForms";
     private static AppDatabase sInstance;
 
     public static AppDatabase getInstance(Context context){
@@ -23,16 +23,20 @@ public abstract class AppDatabase extends RoomDatabase {
             synchronized (LOCK){
                 Log.d(LOG_TAG, "Creating a new database instance");
                 sInstance = buildDatabase(context);
-                /*sInstance = Room.databaseBuilder(context.getApplicationContext(),
+                sInstance = Room.databaseBuilder(context.getApplicationContext(),
                         AppDatabase.class, AppDatabase.DATABASE_NAME)
-                        .build();*/
+                        .build();
             }
         }
         Log.d(LOG_TAG, "Getting the Database Instance");
         return sInstance;
     }
 
+    //Table List
     public abstract FormListDao formDao();
+    public abstract FormsDao formsDao();
+    public abstract FormTypeDao formTypeDao();
+    public abstract FormFieldDao formFieldDao();
 
     private static AppDatabase buildDatabase(final Context context){
         return Room.databaseBuilder(context,
