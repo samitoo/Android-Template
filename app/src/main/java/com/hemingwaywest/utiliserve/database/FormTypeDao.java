@@ -22,7 +22,7 @@ import java.util.List;
 public interface FormTypeDao {
 
     //@Query("SELECT * FROM form_type")
-    //List<FormType> getAll();
+    //List<FormType> getAllTemplates();
 
     @Insert
     void insertFormType(FormType formType);

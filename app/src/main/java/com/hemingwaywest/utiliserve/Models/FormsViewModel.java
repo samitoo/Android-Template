@@ -30,7 +30,7 @@ public class FormsViewModel extends AndroidViewModel {
     public FormsViewModel(@NonNull Application application) {
         super(application);
         Log.d(TAG, "Actively retrieving the Forms from the Database");
-        listOfForms = database.formsDao().getAll();
+        listOfForms = database.formsDao().getAllTemplates();
     }
 
     public LiveData<List<Forms>> getListOfForms(){return listOfForms;}

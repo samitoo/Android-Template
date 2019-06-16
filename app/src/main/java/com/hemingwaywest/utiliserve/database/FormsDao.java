@@ -20,25 +20,47 @@ import java.util.List;
  */
 
 @Dao
-public interface FormsDao {
+public abstract class FormsDao {
 
+    //Get the blank template forms
     @Query("SELECT * FROM forms WHERE formType ='blank'")
-    LiveData<List<Forms>> getAll();
+    public abstract LiveData<List<Forms>> getAllTemplates();
 
+    //Clear forms table
     @Query("DELETE FROM forms")
-    void deleteAll();
+    public abstract void deleteAll();
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    public abstract Long insertForm(Forms form);
 
     @Insert
-    void insertForm(Forms form);
-
-    @Insert
-    void insertAll(Forms ...forms);
+    public abstract void insertAll(Forms ...forms);
 
     @Update(onConflict = OnConflictStrategy.REPLACE)
-    void updateForm(Forms form);
+    public abstract void updateForm(Forms form);
 
     @Delete
-    void deleteForm(Forms form);
+    public abstract void deleteForm(Forms form);
+
+    //Relationship workarounds
+    @Insert
+    public abstract void insertFieldList(List<FormField> fields);
+
+    @Query("SELECT * FROM forms WHERE id =:id")
+    public abstract Forms getForm(int id);
+
+    @Query("SELECT * FROM form_field WHERE form_id =:formid")
+    public abstract List<FormField>getFormFieldList(int formid);
+
+    //Insert a new form with all field children
+    public void insertFormWithFields(Forms form){
+        List<FormField> fields = form.getFormFieldList();
+        for (int i = 0; i < fields.size(); i++) {
+            fields.get(i).setForm_id(form.getId());
+        }
+        insertFieldList(fields);
+        insertForm(form);
+    }
 
 
 

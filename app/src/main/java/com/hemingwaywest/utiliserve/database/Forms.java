@@ -6,6 +6,8 @@ import android.arch.persistence.room.Ignore;
 import android.arch.persistence.room.Index;
 import android.arch.persistence.room.PrimaryKey;
 
+import java.util.List;
+
 import static android.arch.persistence.room.ForeignKey.CASCADE;
 
 /**
@@ -27,6 +29,9 @@ public class Forms {
     private String formType;
     private String name;
     private String description;
+
+    @Ignore
+    private List<FormField> formFieldList;
 
     @Ignore
     //Constructor for new, generates ID
@@ -52,12 +57,14 @@ public class Forms {
     public String getFormType() {return formType;}
     public String getName() {return name;}
     public String getDescription() {return description;}
+    public List<FormField> getFormFieldList() {return formFieldList;}
 
     public void setId(int id){this.id = id;}
   //  public void setUserID(int userID){this.userID = userID;}
     public void setFormType(String formType) {this.formType = formType;}
     public void setName(String name){this.name = name;}
     public void setDescription(String name){this.description = description;}
+    public void setFormFieldList(List<FormField> formFieldList) {this.formFieldList = formFieldList;}
 
 
     public static Forms[] prepopulateFormsData(){
@@ -70,5 +77,8 @@ public class Forms {
     private static User createUser(){
         return new User("sammy","hamdan");
     }
+
+
+
 
 }

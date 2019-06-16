@@ -22,6 +22,11 @@ import com.hemingwaywest.utiliserve.database.AppDatabase;
 import com.hemingwaywest.utiliserve.database.FormField;
 import com.hemingwaywest.utiliserve.database.Forms;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
+
 
 /**
  * Project: utiliserve-reboot
@@ -105,13 +110,20 @@ public class FormDetailFragment extends Fragment {
 
         final Forms form = new Forms(formType, title, description);
         final FormField[] fields = getList(form);
+        final List<FormField> fieldsList = Arrays.asList(fields);
 
         AppExecutors.getInstance().diskIO().execute(new Runnable() {
             @Override
             public void run() {
                 //Add error checking with default
-                mDb.formsDao().insertForm(form);
                 //mDb.formFieldDao().insertAll(fields);
+
+                Long mID = mDb.formsDao().insertForm(form);
+                form.setFormFieldList(fieldsList);
+                form.setId(mID.intValue());
+
+                mDb.formsDao().insertFormWithFields(form);
+                Log.d(TAG, "form id = " + form.getId() + " and returned Long = " + mID);
             }
         });
         Log.d(TAG, "Save Presed");
