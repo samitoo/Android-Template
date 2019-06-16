@@ -8,8 +8,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.hemingwaywest.utiliserve.Models.Queue;
 import com.hemingwaywest.utiliserve.R;
+import com.hemingwaywest.utiliserve.database.Forms;
 
 import java.util.List;
 
@@ -24,16 +24,25 @@ import java.util.List;
 public class QueueListRecycleAdapter extends RecyclerView.Adapter<QueueListRecycleAdapter.MyViewHolder> {
 
     private Context mContext;
-    private List<Queue> mQueue;
+    private List<Forms> mQueue;
+    final private ItemClickListener mItemClickListener;
 
-    public QueueListRecycleAdapter(Context context, List<Queue> queueList){
-        mQueue = queueList;
+
+    public QueueListRecycleAdapter(Context context, ItemClickListener listener){
         mContext = context;
+        mItemClickListener = listener;
     }
 
-    @NonNull
+    /**
+     * This gets called when each new viewholder is created.
+     *
+     * @param viewGroup The viewgroup that these viewholders are contained within
+     * @param viewType if the recycler view has more than one type of item, you use this viewType Integer
+     *          to provide a different layout.
+     * @return A new Recycler view Adapter that holds the view for each list item
+     */
     @Override
-    public MyViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
+    public MyViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
         Context context = viewGroup.getContext();
         int layoutForListItem = R.layout.item_queue;
         LayoutInflater inflater = LayoutInflater.from(context);
@@ -43,37 +52,62 @@ public class QueueListRecycleAdapter extends RecyclerView.Adapter<QueueListRecyc
         return new MyViewHolder(v);
     }
 
+    /**
+     * Fetch Data from Model
+     */
     @Override
-    public void onBindViewHolder(@NonNull MyViewHolder myViewHolder, int position) {
-        //Get position
-        Queue queue = mQueue.get(position);
-        //Get Values
-        String title = queue.getmName();
-        String status = queue.getmStatus();
-        //Set Values
-        myViewHolder.tv_formTitle.setText(title);
-        myViewHolder.tv_formStatus.setText(status);
-
-
+    public void onBindViewHolder(MyViewHolder myViewHolder, int position) {
+            //Get position
+            Forms form = mQueue.get(position);
+            //Get Values
+            String title = form.getName();
+            String status = form.getDescription();
+            //Set Values
+            myViewHolder.tv_formTitle.setText(title);
+            myViewHolder.tv_formStatus.setText(status);
     }
 
     @Override
     public int getItemCount() {
+        if (null == mQueue) return 0;
         return mQueue.size();
     }
 
-    //TODO Implement View.OnClickListener
-    public class MyViewHolder extends RecyclerView.ViewHolder {
+    public void setQueueData(List<Forms> queueData){
+        mQueue = queueData;
+        notifyDataSetChanged();
+    }
+
+    public List<Forms> getmQueue(){return mQueue;}
+
+    public interface ItemClickListener {
+        void onItemClickListener(int itemId);
+    }
+
+    /**
+     * Inner Class for views
+     * Recycler view needs a viewholder class
+     * This bind the data to the layout for the list item
+     */
+    class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
 
         public final TextView tv_formTitle;
         public final TextView tv_formStatus;
 
-        public MyViewHolder( View itemView) {
+        //Constructor
+        public MyViewHolder(View itemView) {
             super(itemView);
 
             tv_formTitle = (TextView)itemView.findViewById(R.id.form_title);
             tv_formStatus = (TextView)itemView.findViewById(R.id.form_status);
+            itemView.setOnClickListener(this);
 
+        }
+
+        @Override
+        public void onClick(View v) {
+            int elementId = mQueue.get(getAdapterPosition()).getId();
+            mItemClickListener.onItemClickListener(elementId);
         }
     }
 }

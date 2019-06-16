@@ -56,7 +56,6 @@ public class FormFragment extends Fragment implements FormListRecycleAdapter.Ite
     private ProgressBar mLoadingBar;
 
     //DB
-    private AppDatabase mDb;
     private FormsViewModel viewModel;
 
 
@@ -67,7 +66,6 @@ public class FormFragment extends Fragment implements FormListRecycleAdapter.Ite
         //return super.onCreateView(inflater, container, savedInstanceState);
         formView = inflater.inflate(R.layout.fragment_forms, container, false);
         initViews();
-        mDb = AppDatabase.getInstance(getContext());
         loadFormData();
 
         //return super.onCreateView(inflater, container, savedInstanceState);
@@ -119,27 +117,7 @@ public class FormFragment extends Fragment implements FormListRecycleAdapter.Ite
     private void loadFormData(){
         showFormViews();
         setupViewModel();
-        //retrieveForms();
-        //new FetchFormTask().execute();
     }
-
-
-   /* private void retrieveForms() {
-        Log.d(TAG, "Retrieving data from DB");
-        AppExecutors.getInstance().diskIO().execute(new Runnable() {
-            @Override
-            public void run() {
-                final List<FormListEntry> forms = mDb.formDao().loadAllForms();
-                //TODO simplify with architecture later
-                getActivity().runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        mRecycleAdapter.setFormData(forms);
-                    }
-                });
-            }
-        });
-    } */
 
     //endregion
 

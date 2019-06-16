@@ -30,11 +30,6 @@ public class FormListRecycleAdapter extends RecyclerView.Adapter<FormListRecycle
     final private ItemClickListener mItemClickListener;
 
 
-    /*public FormListRecycleAdapter(Context mContext, List<FormListEntry> mData) {
-        this.mContext = mContext;
-        this.mFormData = mData;
-    }*/
-    //Default constructor for now, using set method for now
     public FormListRecycleAdapter(Context context, ItemClickListener listener ){
         mContext = context;
         mItemClickListener = listener;
@@ -53,9 +48,8 @@ public class FormListRecycleAdapter extends RecyclerView.Adapter<FormListRecycle
         Context context = viewGroup.getContext();
         int layoutIdForListItem = R.layout.item_form;
         LayoutInflater inflater = LayoutInflater.from(context);
-        boolean shouldAttachToParentImmediately = false;
 
-        View v = inflater.inflate(layoutIdForListItem, viewGroup, shouldAttachToParentImmediately);
+        View v = inflater.inflate(layoutIdForListItem, viewGroup, false);
 
         return new MyViewHolder(v);
     }
@@ -74,8 +68,6 @@ public class FormListRecycleAdapter extends RecyclerView.Adapter<FormListRecycle
         //Set the values
         myViewHolder.tv_formName.setText(title);
         myViewHolder.tv_formDetails.setText(description);
-
-
     }
 
     @Override
