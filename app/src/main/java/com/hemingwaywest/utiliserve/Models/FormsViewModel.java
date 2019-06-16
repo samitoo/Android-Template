@@ -22,16 +22,23 @@ import java.util.List;
 public class FormsViewModel extends AndroidViewModel {
 
     private static final String TAG = FormsViewModel.class.getSimpleName();
+    private AppDatabase database = AppDatabase.getInstance(this.getApplication());
 
     private LiveData<List<Forms>> listOfForms;
 
     //Constructor
     public FormsViewModel(@NonNull Application application) {
         super(application);
-        AppDatabase database = AppDatabase.getInstance(this.getApplication());
         Log.d(TAG, "Actively retrieving the Forms from the Database");
         listOfForms = database.formsDao().getAll();
     }
 
     public LiveData<List<Forms>> getListOfForms(){return listOfForms;}
+
+    public void deleteEntireDB(){
+        database.formsDao().deleteAll();
+    }
+    public void reloadDB(){
+        AppDatabase.loadDatabase(this.getApplication());
+    }
 }

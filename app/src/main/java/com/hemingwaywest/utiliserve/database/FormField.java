@@ -6,6 +6,8 @@ import android.arch.persistence.room.Ignore;
 import android.arch.persistence.room.Index;
 import android.arch.persistence.room.PrimaryKey;
 
+import static android.arch.persistence.room.ForeignKey.CASCADE;
+
 /**
  * Project: Utiliserve
  * HemingwayWest, LLC. Copyright (c) 2019  All rights reserved.
@@ -16,7 +18,8 @@ import android.arch.persistence.room.PrimaryKey;
  */
 @Entity(indices ={@Index("form_id")} ,tableName = "form_field", foreignKeys = @ForeignKey(entity = Forms.class,
                                                             parentColumns = "id",
-                                                            childColumns = "form_id"))
+                                                            childColumns = "form_id",
+                                                            onDelete = CASCADE))
 public class FormField {
 
     @PrimaryKey(autoGenerate = true)

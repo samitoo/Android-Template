@@ -25,6 +25,9 @@ public interface FormsDao {
     @Query("SELECT * FROM forms")
     LiveData<List<Forms>> getAll();
 
+    @Query("DELETE FROM forms")
+    void deleteAll();
+
     @Insert
     void insertForm(Forms form);
 
@@ -36,4 +39,7 @@ public interface FormsDao {
 
     @Delete
     void deleteForm(Forms form);
+
+
+
 }

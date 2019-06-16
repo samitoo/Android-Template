@@ -26,6 +26,8 @@ import com.hemingwaywest.utiliserve.database.FormListEntry;
 import com.hemingwaywest.utiliserve.database.Forms;
 
 import java.util.List;
+import java.util.concurrent.Executors;
+
 import android.support.v7.widget.Toolbar;
 
 
@@ -55,6 +57,7 @@ public class FormFragment extends Fragment implements FormListRecycleAdapter.Ite
 
     //DB
     private AppDatabase mDb;
+    private FormsViewModel viewModel;
 
 
 
@@ -94,7 +97,7 @@ public class FormFragment extends Fragment implements FormListRecycleAdapter.Ite
 
     //Setup the view model so that live data can auto refresh from the DB
     private void setupViewModel(){
-        FormsViewModel viewModel = ViewModelProviders.of(this).get(FormsViewModel.class);
+        viewModel = ViewModelProviders.of(this).get(FormsViewModel.class);
         viewModel.getListOfForms().observe(this, new Observer<List<Forms>>() {
             @Override
             public void onChanged(@Nullable List<Forms> forms) {
@@ -120,6 +123,7 @@ public class FormFragment extends Fragment implements FormListRecycleAdapter.Ite
         //new FetchFormTask().execute();
     }
 
+
    /* private void retrieveForms() {
         Log.d(TAG, "Retrieving data from DB");
         AppExecutors.getInstance().diskIO().execute(new Runnable() {
@@ -137,6 +141,25 @@ public class FormFragment extends Fragment implements FormListRecycleAdapter.Ite
         });
     } */
 
+    //endregion
+
+    //region PUBLIC HELPER METHODS FOR TEST
+    public void deleteEntireDB(){
+        Executors.newSingleThreadScheduledExecutor().execute(new Runnable() {
+            @Override
+            public void run() {
+                viewModel.deleteEntireDB();
+            }
+        });
+    }
+    public  void reloadDB(){
+        Executors.newSingleThreadScheduledExecutor().execute(new Runnable() {
+            @Override
+            public void run() {
+                viewModel.reloadDB();
+            }
+        });
+    }
     //endregion
 
     @Override

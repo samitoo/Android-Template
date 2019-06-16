@@ -59,4 +59,13 @@ public abstract class AppDatabase extends RoomDatabase {
                 })
                 .build();
     }
+
+    public static void loadDatabase(final Context context){
+        Executors.newSingleThreadScheduledExecutor().execute(new Runnable() {
+            @Override
+            public void run() {
+                getInstance(context).formsDao().insertAll(Forms.prepopulateFormsData());
+            }
+        });
+    }
 }

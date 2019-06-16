@@ -1,5 +1,7 @@
 package com.hemingwaywest.utiliserve;
 
+import android.arch.lifecycle.ViewModelProviders;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -9,11 +11,16 @@ import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
+
+import com.hemingwaywest.utiliserve.Models.FormsViewModel;
 
 public class MainActivity extends AppCompatActivity
         implements SharedPreferences.OnSharedPreferenceChangeListener {
@@ -103,6 +110,15 @@ public class MainActivity extends AppCompatActivity
             startActivity(startSettingsActivity);
             return true;
         }
+        if(id == R.id.action_delete_db){
+            Log.d("Main Menu", "Delete pressed");
+           createAlertForDelete();
+        }
+
+        if(id==R.id.action_reload_db){
+            FormFragment formFrag = (FormFragment)getSupportFragmentManager().findFragmentById(R.id.fragment_container);
+            formFrag.reloadDB();
+        }
 
         return super.onOptionsItemSelected(item);
     }
@@ -114,5 +130,31 @@ public class MainActivity extends AppCompatActivity
         if (key.equals(getString(R.string.pref_show_debug_key))){
             //Change to debug pull
         }
+    }
+
+    //Create an alert to show confirmation before delete DB from settings menu
+    private void createAlertForDelete(){
+        AlertDialog.Builder alertbox = new AlertDialog.Builder(MainActivity.this);
+        alertbox.setTitle("Are you sure?");
+        alertbox.setMessage("This will wipe the DB and reload the defaults");
+        alertbox.setCancelable(false);
+        alertbox.setPositiveButton("yes", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                Toast.makeText(MainActivity.this, "Selected Option: YES", Toast.LENGTH_SHORT).show();
+                //FormsViewModel viewModel = ViewModelProviders.of(this).get(FormsViewModel.class);
+                //viewModel.deleteEntireDB();
+                FormFragment formFrag = (FormFragment)getSupportFragmentManager().findFragmentById(R.id.fragment_container);
+                formFrag.deleteEntireDB();
+            }
+        });
+        alertbox.setNegativeButton("No", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                Toast.makeText(MainActivity.this, "Selected Option: NO", Toast.LENGTH_SHORT).show();
+            }
+        });
+        AlertDialog dialog = alertbox.create();
+        dialog.show();
     }
 }
