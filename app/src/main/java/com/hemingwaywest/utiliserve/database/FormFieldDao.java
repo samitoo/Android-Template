@@ -26,6 +26,9 @@ public interface FormFieldDao {
     @Insert
     void insertFormField(FormField formField);
 
+    @Insert
+    void insertAll(FormField ...formFields);
+
     @Update(onConflict = OnConflictStrategy.REPLACE)
     void updateFormField(FormField formField);
 

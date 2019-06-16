@@ -18,11 +18,11 @@ import java.util.List;
  * Notes:
  */
 
-@Dao
+//@Dao
 public interface FormTypeDao {
 
-    @Query("SELECT * FROM form_type")
-    List<FormType> getAll();
+    //@Query("SELECT * FROM form_type")
+    //List<FormType> getAll();
 
     @Insert
     void insertFormType(FormType formType);

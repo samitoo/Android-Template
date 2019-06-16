@@ -142,8 +142,6 @@ public class MainActivity extends AppCompatActivity
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 Toast.makeText(MainActivity.this, "Selected Option: YES", Toast.LENGTH_SHORT).show();
-                //FormsViewModel viewModel = ViewModelProviders.of(this).get(FormsViewModel.class);
-                //viewModel.deleteEntireDB();
                 FormFragment formFrag = (FormFragment)getSupportFragmentManager().findFragmentById(R.id.fragment_container);
                 formFrag.deleteEntireDB();
             }

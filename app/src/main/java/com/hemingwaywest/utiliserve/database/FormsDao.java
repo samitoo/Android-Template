@@ -22,7 +22,7 @@ import java.util.List;
 @Dao
 public interface FormsDao {
 
-    @Query("SELECT * FROM forms")
+    @Query("SELECT * FROM forms WHERE formType ='blank'")
     LiveData<List<Forms>> getAll();
 
     @Query("DELETE FROM forms")

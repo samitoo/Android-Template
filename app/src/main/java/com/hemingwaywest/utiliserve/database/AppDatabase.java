@@ -10,7 +10,7 @@ import android.util.Log;
 
 import java.util.concurrent.Executors;
 
-@Database(entities = {FormListEntry.class, Forms.class, FormField.class, FormType.class}, version = 1, exportSchema = false)
+@Database(entities = {User.class, Forms.class, FormField.class}, version = 1, exportSchema = false)
 public abstract class AppDatabase extends RoomDatabase {
 
     private static final String LOG_TAG = AppDatabase.class.getSimpleName();
@@ -35,9 +35,8 @@ public abstract class AppDatabase extends RoomDatabase {
     }
 
     //Table List
-    public abstract FormListDao formListDao();
+    public abstract UserDao userDao();
     public abstract FormsDao formsDao();
-    public abstract FormTypeDao formTypeDao();
     public abstract FormFieldDao formFieldDao();
 
     //Using this to load a demo forms list

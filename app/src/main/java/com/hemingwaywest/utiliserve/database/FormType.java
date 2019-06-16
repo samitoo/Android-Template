@@ -14,9 +14,9 @@ import android.arch.persistence.room.PrimaryKey;
  * url: www.HemingwayWest.com
  * Notes:
  */
-@Entity(indices = {@Index("form_id")},tableName = "form_type", foreignKeys = @ForeignKey(entity = Forms.class,
+/*@Entity(indices = {@Index("form_id")},tableName = "form_type", foreignKeys = @ForeignKey(entity = Forms.class,
                                                             parentColumns = "id",
-                                                            childColumns = "form_id"))
+                                                            childColumns = "form_id"))*/
 public class FormType {
 
     @PrimaryKey(autoGenerate = true)
