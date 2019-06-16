@@ -159,7 +159,7 @@ public class FormDetailFragment extends Fragment {
         if (form==null){
             return;
         }
-        //Loop through views and update 
+        //Loop through views and update
     }
 
 
