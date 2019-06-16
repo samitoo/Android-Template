@@ -41,6 +41,7 @@ import java.util.List;
 public class FormDetailFragment extends Fragment {
 
     private static final String TAG = FormDetailFragment.class.getSimpleName();
+    private static final String BUNDLE_EXTRA = "bundleExtra";
     // Constant for default task id to be used when not in update mode
     private static final int DEFAULT_FORM_ID = -1;
     private int mFormID = DEFAULT_FORM_ID;
@@ -56,12 +57,27 @@ public class FormDetailFragment extends Fragment {
     private RadioButton mRadioCommercial, mRadioMultiFamily, mRadioResidential, mRadioRural;
     private Button mSaveButton;
 
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         //return super.onCreateView(inflater, container, savedInstanceState);
         formDetailView= inflater.inflate(R.layout.form_hydrant_inspection, container, false);
         mDb = AppDatabase.getInstance(getContext());
+        initViews();
+
+        //Check bundle and fill detail page
+        Bundle bundle = this.getArguments();
+        if(bundle != null) {
+            Log.d(TAG, "Bundle pass successful " + bundle);
+            mSaveButton.setText("Update");
+        }
+
+        Log.d(TAG, "Loading Detail Fragment");
+        return formDetailView;
+    }
+
+    private void initViews(){
         mSaveButton = formDetailView.findViewById(R.id.saveButton);
         mSaveButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -96,9 +112,6 @@ public class FormDetailFragment extends Fragment {
                 getActivity().onBackPressed();
             }
         });
-
-        Log.d(TAG, "Loading Detail Fragment");
-        return formDetailView;
     }
 
     public void onSaveButtonClicked(){
@@ -126,7 +139,7 @@ public class FormDetailFragment extends Fragment {
                 Log.d(TAG, "form id = " + form.getId() + " and returned Long = " + mID);
             }
         });
-        Log.d(TAG, "Save Presed");
+        Log.d(TAG, "Save Pressed");
         getFragmentManager().popBackStackImmediate();
 
     }
@@ -140,6 +153,13 @@ public class FormDetailFragment extends Fragment {
                 new FormField(form.getId(), "Hydrant Number", mZipCode.getText().toString()),
                 new FormField(form.getId(), "Hydrant Number", mHydrantSub.getText().toString())
         };
+    }
+
+    private void populateUI(Forms form){
+        if (form==null){
+            return;
+        }
+        //Loop through views and update 
     }
 
 

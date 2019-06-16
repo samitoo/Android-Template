@@ -2,10 +2,13 @@ package com.hemingwaywest.utiliserve;
 
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -94,6 +97,18 @@ public class QueueFragment extends Fragment implements QueueListRecycleAdapter.I
 
     @Override
     public void onItemClickListener(int itemId) {
+        //Data to send
+        Bundle bundle = new Bundle();
+        //TODO Call to DB to get the Fields for The selected form
+        bundle.putInt("TEST", 1);
+        FormDetailFragment frag = new FormDetailFragment();
+        frag.setArguments(bundle);
+        //Change fragments
+        FragmentManager fragmentManager = getFragmentManager();
+        FragmentTransaction transaction = fragmentManager.beginTransaction();
+        transaction.replace(R.id.fragment_container, frag);
+        transaction.addToBackStack("fragmentDetail");
+        transaction.commit();
 
     }
 }
