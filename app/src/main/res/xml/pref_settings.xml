@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
-    <PreferenceCategory
+    <!--<PreferenceCategory
         android:key="@string/pref_category_notifications_key"
         android:title="@string/pref_category_notifications_title">
 
@@ -12,7 +12,7 @@
             android:defaultValue="@bool/pref_show_notification_default"
             android:dependency="@string/pref_category_notifications_key"
             />
-    </PreferenceCategory>
+    </PreferenceCategory> -->
 
     <PreferenceCategory
         android:key="@string/pref_category_dev_key"

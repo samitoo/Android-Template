@@ -95,9 +95,6 @@ public class AccountFragment extends Fragment
 
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
-        Log.d(TAG, "shared pref changed");
-        Log.d(TAG, "Key " +key);
-        Log.d(TAG, "Get String returns: " + getString(R.string.pref_name_key));
         if (key.equals(getString(R.string.pref_name_key))){
             //Change to debug pull
             String name = mSharedPref.getString(

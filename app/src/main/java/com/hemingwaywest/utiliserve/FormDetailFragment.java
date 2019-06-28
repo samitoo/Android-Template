@@ -134,27 +134,41 @@ public class FormDetailFragment extends Fragment {
         //TODO logic around form type?  Currently all are save, need update.
         String formType = getResources().getString(R.string.form_type_complete);
 
-        //create new Form object with Title and description
-        final Forms form = new Forms(formType, title, description);
-        //create form field objects associated with the new form
-        final FormField[] fields = getList(form);
-        //Convert object for DB
-        final List<FormField> fieldsList = Arrays.asList(fields);
+        //insert new item
+        if(mFormID == DEFAULT_FORM_ID) {
+            //create new Form object with Title and description
+            final Forms form = new Forms(formType, title, description);
+            //create form field objects associated with the new form
+            final FormField[] fields = getList(form);
+            //Convert object for DB
+            final List<FormField> fieldsList = Arrays.asList(fields);
 
-        AppExecutors.getInstance().diskIO().execute(new Runnable() {
-            @Override
-            public void run() {
-                //Add error checking with default
-                //mDb.formFieldDao().insertAll(fields);
+            AppExecutors.getInstance().diskIO().execute(new Runnable() {
+                @Override
+                public void run() {
+                    //Add error checking with default
+                    //mDb.formFieldDao().insertAll(fields);
+                        Long mID = mDb.formsDao().insertForm(form);
+                        form.setFormFieldList(fieldsList);
+                        form.setId(mID.intValue());
+                        mDb.formsDao().insertFormWithFields(form);
+                        Log.d(TAG, "form id = " + form.getId() + " and returned Long = " + mID);
+                }
+            });
+        }
+        //Update item
+        else if (mFormID != DEFAULT_FORM_ID){
+            final FormField[] updateFields = getList(formToUpdate);
+            final List<FormField> updateFieldsList = Arrays.asList(updateFields);
+            formToUpdate.setFormFieldList(updateFieldsList);
+            AppExecutors.getInstance().diskIO().execute(new Runnable() {
+                @Override
+                public void run() {
+                    mDb.formsDao().insertFormWithFields(formToUpdate);
+                }
+            });
+        }
 
-                Long mID = mDb.formsDao().insertForm(form);
-                form.setFormFieldList(fieldsList);
-                form.setId(mID.intValue());
-
-                mDb.formsDao().insertFormWithFields(form);
-                Log.d(TAG, "form id = " + form.getId() + " and returned Long = " + mID);
-            }
-        });
         Log.d(TAG, "Save Pressed");
         getFragmentManager().popBackStackImmediate();
 

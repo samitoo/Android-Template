@@ -46,8 +46,11 @@ public abstract class FormsDao {
     public abstract void deleteForm(Forms form);
 
     //Relationship workarounds
-    @Insert
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     public abstract void insertFieldList(List<FormField> fields);
+
+    @Update(onConflict = OnConflictStrategy.REPLACE)
+    public abstract void updateFieldList(List<FormField> fields);
 
     @Query("SELECT * FROM forms WHERE id =:id")
     public abstract Forms getForm(int id);
@@ -63,6 +66,11 @@ public abstract class FormsDao {
         }
         insertFieldList(fields);
         insertForm(form);
+    }
+
+    public void updateFormWithFields(Forms form){
+        List<FormField> fields = form.getFormFieldList();
+        insertFieldList(fields);
     }
 
 
