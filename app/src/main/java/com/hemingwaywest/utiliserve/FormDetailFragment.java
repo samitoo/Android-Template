@@ -121,8 +121,11 @@ public class FormDetailFragment extends Fragment {
         //TODO logic around form type?  Currently all are save, need update.
         String formType = "filled";
 
+        //create new Form object with Title and description
         final Forms form = new Forms(formType, title, description);
+        //create form field objects associated with the new form
         final FormField[] fields = getList(form);
+        //Convert object for DB
         final List<FormField> fieldsList = Arrays.asList(fields);
 
         AppExecutors.getInstance().diskIO().execute(new Runnable() {

@@ -122,6 +122,10 @@ public class MainActivity extends AppCompatActivity
             formFrag.reloadDB();
         }
 
+        if(id==R.id.action_sync){
+            Toast.makeText(getApplicationContext(), "Syncing Files", Toast.LENGTH_SHORT).show();
+        }
+
         return super.onOptionsItemSelected(item);
     }
 

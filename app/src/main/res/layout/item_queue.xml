@@ -29,18 +29,45 @@
             android:layout_height="wrap_content"
             android:textStyle="bold"
             android:text="Form Title"
-            android:textSize="30sp"
+            android:textSize="20sp"
             android:textAlignment="center"
             />
+        <TextView
+            android:id="@+id/form_description"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textStyle="bold"
+            android:text="Form Des"
+            android:textSize="15sp"
+            android:textAlignment="center"
+            android:layout_below="@+id/form_title"
+            />
+    </RelativeLayout>
+    <RelativeLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_gravity="center"
+        android:layout_marginLeft="30dp"
+        android:layout_weight=".8">
         <TextView
             android:id="@+id/form_status"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textStyle="bold"
-            android:text="Form Queue Status"
+            android:text="Form Status"
+            android:textSize="20sp"
+            android:textAlignment="center"
+            />
+        <TextView
+            android:id="@+id/form_id"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textStyle="bold"
+            android:text="Form ID"
             android:textSize="15sp"
             android:textAlignment="center"
-            android:layout_below="@+id/form_title"
+            android:layout_below="@+id/form_status"
             />
     </RelativeLayout>
     <LinearLayout

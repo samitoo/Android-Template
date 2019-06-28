@@ -11,6 +11,8 @@ import android.widget.TextView;
 import com.hemingwaywest.utiliserve.R;
 import com.hemingwaywest.utiliserve.database.Forms;
 
+import org.w3c.dom.Text;
+
 import java.util.List;
 
 /**
@@ -61,10 +63,14 @@ public class QueueListRecycleAdapter extends RecyclerView.Adapter<QueueListRecyc
             Forms form = mQueue.get(position);
             //Get Values
             String title = form.getName();
-            String status = form.getDescription();
+            String description = form.getDescription();
+            String status = form.getFormType();
+            Integer formNum = form.getId();
             //Set Values
             myViewHolder.tv_formTitle.setText(title);
+            myViewHolder.tv_formDescription.setText(description);
             myViewHolder.tv_formStatus.setText(status);
+            myViewHolder.tv_formNum.setText(formNum.toString());
     }
 
     @Override
@@ -92,14 +98,19 @@ public class QueueListRecycleAdapter extends RecyclerView.Adapter<QueueListRecyc
     class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
 
         public final TextView tv_formTitle;
+        public final TextView tv_formDescription;
         public final TextView tv_formStatus;
+        public final TextView tv_formNum;
+
 
         //Constructor
         public MyViewHolder(View itemView) {
             super(itemView);
 
             tv_formTitle = (TextView)itemView.findViewById(R.id.form_title);
+            tv_formDescription = (TextView)itemView.findViewById(R.id.form_description);
             tv_formStatus = (TextView)itemView.findViewById(R.id.form_status);
+            tv_formNum = (TextView) itemView.findViewById(R.id.form_id);
             itemView.setOnClickListener(this);
 
         }

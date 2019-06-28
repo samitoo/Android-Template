@@ -4,6 +4,7 @@
     <string name="notification_settings">Notifications</string>
     <string name="delete_db">Delete Database</string>
     <string name="reload_db">Reload Database</string>
+    <string name="sync_files">Sync to Database</string>
     <string name="save_button">Save</string>
     <!-- ****************** -->
     <!-- Error Values -->
