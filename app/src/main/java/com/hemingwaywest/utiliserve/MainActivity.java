@@ -25,6 +25,8 @@ import com.hemingwaywest.utiliserve.Models.FormsViewModel;
 public class MainActivity extends AppCompatActivity
         implements SharedPreferences.OnSharedPreferenceChangeListener {
 
+    boolean mDebugMode = false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         //Swap from the launcher theme back to to the original before calling super
@@ -96,6 +98,15 @@ public class MainActivity extends AppCompatActivity
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main, menu);
+        if(!mDebugMode){
+            menu.getItem(1).setVisible(false);
+            menu.getItem(2).setVisible(false);
+        }
+        else{
+            for (int i = 0; i < menu.size(); i++) {
+                menu.getItem(i).setVisible(true);
+            }
+        }
         return true;
     }
 
@@ -135,6 +146,16 @@ public class MainActivity extends AppCompatActivity
         //TODO Add preferences changes to here instead of OnCreate
         if (key.equals(getString(R.string.pref_show_debug_key))){
             //Change to debug pull
+            Boolean debug = sharedPreferences.getBoolean
+                    (getString(R.string.pref_show_debug_key),false);
+            if(debug == false){
+                mDebugMode = false;
+                //forces on menu create to be called again
+                invalidateOptionsMenu();
+            }else if(debug == true){
+                mDebugMode = true;
+                invalidateOptionsMenu();
+            }
         }
     }
 

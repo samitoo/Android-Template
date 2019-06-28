@@ -48,6 +48,7 @@ public class FormDetailFragment extends Fragment {
 
     private View formDetailView;
     private AppDatabase mDb;
+    List<FormField> mFormFields;
     Forms formToUpdate;
 
     //Loading and Errors
@@ -188,43 +189,46 @@ public class FormDetailFragment extends Fragment {
             @Override
             public void run() {
                 Log.d(TAG, "run: THREAD");
-                final List<FormField> thisFormsFields = mDb.formsDao().getFormFieldList(mFormID);
-                Log.d(TAG, "run: " + thisFormsFields);
-                for (int i = 0; i < thisFormsFields.size(); i++) {
-                    String name = thisFormsFields.get(i).getName();
-                    String value = thisFormsFields.get(i).getValue();
-                    Log.d(TAG, "run: name: " + name + " value: " +value);
-                    switch (thisFormsFields.get(i).getName()){
+                mFormFields = mDb.formsDao().getFormFieldList(mFormID);
+                Log.d(TAG, "populateUI: " + mFormFields);
+                //All UI updates have to come from main thread or big fat error!
+                getActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        tempFillFormFields(mFormFields);
+                    }
+                });
+
+            }
+            });
+        }
+
+        private void tempFillFormFields(List<FormField> fields){
+            if(fields != null) {
+                for (int i = 0; i < fields.size(); i++) {
+                    String name = fields.get(i).getName();
+                    String value = fields.get(i).getValue();
+                    Log.d(TAG, "run: name: " + name + " value: " + value);
+                    switch (fields.get(i).getName()) {
                         case "hydrant":
-                            mHydrantNo.setText(thisFormsFields.get(i).getValue());
+                            mHydrantNo.setText(fields.get(i).getValue());
                             break;
                         case "address":
-                            mHydrantAdd.setText(thisFormsFields.get(i).getValue());
+                            mHydrantAdd.setText(fields.get(i).getValue());
                             break;
                         case "station":
-                            mStationNo.setText(thisFormsFields.get(i).getValue());
+                            mStationNo.setText(fields.get(i).getValue());
                             break;
                         case "zip":
-                            mZipCode.setText(thisFormsFields.get(i).getValue());
+                            mZipCode.setText(fields.get(i).getValue());
                             break;
                         case "hysub":
-                            mHydrantSub.setText(thisFormsFields.get(i).getValue());
+                            mHydrantSub.setText(fields.get(i).getValue());
                             break;
                     }
                 }
-
-
-
-
             }
-        });
-
-            
-            
-
         }
-
-    //}
 
 
 }
