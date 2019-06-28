@@ -6,6 +6,7 @@
     <string name="reload_db">Reload Database</string>
     <string name="sync_files">Sync to Database</string>
     <string name="save_button">Save</string>
+    <string name="form_type_complete">Complete</string>
     <!-- ****************** -->
     <!-- Error Values -->
     <!-- ****************** -->

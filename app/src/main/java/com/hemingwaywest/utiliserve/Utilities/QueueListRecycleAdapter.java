@@ -117,7 +117,9 @@ public class QueueListRecycleAdapter extends RecyclerView.Adapter<QueueListRecyc
 
         @Override
         public void onClick(View v) {
+            //Get the DB id of the item at the recyclers position
             int elementId = mQueue.get(getAdapterPosition()).getId();
+            //Pass to 'parent' so fragment using this adapter, QueueFragment
             mItemClickListener.onItemClickListener(elementId);
         }
     }

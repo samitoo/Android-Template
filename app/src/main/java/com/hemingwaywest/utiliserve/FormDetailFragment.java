@@ -25,7 +25,7 @@ import com.hemingwaywest.utiliserve.database.Forms;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-
+import java.util.concurrent.Executors;
 
 
 /**
@@ -48,6 +48,7 @@ public class FormDetailFragment extends Fragment {
 
     private View formDetailView;
     private AppDatabase mDb;
+    Forms formToUpdate;
 
     //Loading and Errors
     private TextView mErrorMessageDisplay, mFormTitle, mFormDescription;
@@ -71,6 +72,17 @@ public class FormDetailFragment extends Fragment {
         if(bundle != null) {
             Log.d(TAG, "Bundle pass successful " + bundle);
             mSaveButton.setText("Update");
+            final int formID = bundle.getInt("form_id");
+            mFormID = formID;
+            AppExecutors.getInstance().diskIO().execute(new Runnable() {
+                @Override
+                public void run() {
+                    formToUpdate = mDb.formsDao().getForm(formID);
+                }
+            });
+
+            //Load the data on the form
+            populateUI(formToUpdate);
         }
 
         Log.d(TAG, "Loading Detail Fragment");
@@ -119,7 +131,7 @@ public class FormDetailFragment extends Fragment {
         String title = mFormTitle.getText().toString();
         String description = mFormDescription.getText().toString();
         //TODO logic around form type?  Currently all are save, need update.
-        String formType = "filled";
+        String formType = getResources().getString(R.string.form_type_complete);
 
         //create new Form object with Title and description
         final Forms form = new Forms(formType, title, description);
@@ -150,20 +162,69 @@ public class FormDetailFragment extends Fragment {
     //Temp function catch all the values in the fields on this form
     private FormField[] getList(Forms form){
         return new FormField[]{
-                new FormField(form.getId(), "Hydrant Number", mHydrantNo.getText().toString()),
-                new FormField(form.getId(), "Hydrant Number", mHydrantAdd.getText().toString()),
-                new FormField(form.getId(), "Hydrant Number", mStationNo.getText().toString()),
-                new FormField(form.getId(), "Hydrant Number", mZipCode.getText().toString()),
-                new FormField(form.getId(), "Hydrant Number", mHydrantSub.getText().toString())
+                new FormField(form.getId(), "hydrant", mHydrantNo.getText().toString()),
+                new FormField(form.getId(), "address", mHydrantAdd.getText().toString()),
+                new FormField(form.getId(), "station", mStationNo.getText().toString()),
+                new FormField(form.getId(), "zip", mZipCode.getText().toString()),
+                new FormField(form.getId(), "hysub", mHydrantSub.getText().toString())
         };
     }
 
     private void populateUI(Forms form){
-        if (form==null){
-            return;
+        Log.d(TAG, "populateUI: Calling me!");
+//        if (form==null){
+//            return;
+//        } else {
+            //Test Values
+            Log.d(TAG, "populateUI: calling my else!");
+            mHydrantNo.setText("filled");
+            mHydrantAdd.setText("filled");
+            mStationNo.setText("filled");
+            mZipCode.setText("filled");
+            mHydrantSub.setText("filled");
+
+            //Loop through views and update
+        Executors.newSingleThreadExecutor().execute(new Runnable() {
+            @Override
+            public void run() {
+                Log.d(TAG, "run: THREAD");
+                final List<FormField> thisFormsFields = mDb.formsDao().getFormFieldList(mFormID);
+                Log.d(TAG, "run: " + thisFormsFields);
+                for (int i = 0; i < thisFormsFields.size(); i++) {
+                    String name = thisFormsFields.get(i).getName();
+                    String value = thisFormsFields.get(i).getValue();
+                    Log.d(TAG, "run: name: " + name + " value: " +value);
+                    switch (thisFormsFields.get(i).getName()){
+                        case "hydrant":
+                            mHydrantNo.setText(thisFormsFields.get(i).getValue());
+                            break;
+                        case "address":
+                            mHydrantAdd.setText(thisFormsFields.get(i).getValue());
+                            break;
+                        case "station":
+                            mStationNo.setText(thisFormsFields.get(i).getValue());
+                            break;
+                        case "zip":
+                            mZipCode.setText(thisFormsFields.get(i).getValue());
+                            break;
+                        case "hysub":
+                            mHydrantSub.setText(thisFormsFields.get(i).getValue());
+                            break;
+                    }
+                }
+
+
+
+
+            }
+        });
+
+            
+            
+
         }
-        //Loop through views and update
-    }
+
+    //}
 
 
 }

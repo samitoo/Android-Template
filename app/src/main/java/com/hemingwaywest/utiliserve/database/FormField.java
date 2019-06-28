@@ -16,10 +16,11 @@ import static android.arch.persistence.room.ForeignKey.CASCADE;
  * url: www.HemingwayWest.com
  * Notes:
  */
-@Entity(indices ={@Index("form_id")} ,tableName = "form_field", foreignKeys = @ForeignKey(entity = Forms.class,
-                                                            parentColumns = "id",
-                                                            childColumns = "form_id",
-                                                            onDelete = CASCADE))
+@Entity(indices ={@Index("form_id")} ,tableName = "form_field")
+//, foreignKeys = @ForeignKey(entity = Forms.class,
+//                                                            parentColumns = "id",
+//                                                            childColumns = "form_id",
+//                                                            onDelete = CASCADE)
 public class FormField {
 
     @PrimaryKey(autoGenerate = true)

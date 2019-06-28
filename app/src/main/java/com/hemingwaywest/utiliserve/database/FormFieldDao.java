@@ -23,6 +23,9 @@ public interface FormFieldDao {
     @Query("SELECT * FROM form_field")
     List<FormField> getAll();
 
+    @Query("SELECT * FROM form_field where form_id =:id")
+    <List>FormField getFormFieldById(int id);
+
     @Insert
     void insertFormField(FormField formField);
 

@@ -26,7 +26,7 @@ public abstract class FormsDao {
     @Query("SELECT * FROM forms WHERE formType ='blank'")
     public abstract LiveData<List<Forms>> getAllTemplates();
 
-    @Query("SELECT * FROM forms WHERE formType='filled'")
+    @Query("SELECT * FROM forms WHERE formType='Complete'")
     public abstract LiveData<List<Forms>> getAllForQ();
 
     //Clear forms table
