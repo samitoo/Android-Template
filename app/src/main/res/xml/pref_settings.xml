@@ -39,7 +39,13 @@
             android:dialogMessage="@string/pref_name_dialog_message"
             android:defaultValue="@string/pref_name_default"
             android:dependency="@string/pref_category_account_key"
-
+            />
+        <EditTextPreference
+            android:key="@string/pref_contact_key"
+            android:title="@string/pref_contact_title"
+            android:dialogTitle="@string/pref_contact_dialog_title"
+            android:dialogMessage="@string/pref_contact_dialog_message"
+            android:defaultValue="@string/pref_contact_default"
             />
         <ListPreference
             android:defaultValue="@string/pref_gender_male_label"

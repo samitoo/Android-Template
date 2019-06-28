@@ -31,7 +31,7 @@ public class AccountFragment extends Fragment
 
     private final static String TAG = AccountFragment.class.getSimpleName();
 
-    private TextView mUserName;
+    private TextView mUserName, mContactNumber;
     private View accountView;
     private SharedPreferences mSharedPref;
     private ImageView mNameEdit, mContactEdit, mHelp;
@@ -50,7 +50,10 @@ public class AccountFragment extends Fragment
     }
 
     private void setupViews(){
+        //Text Fields
         mUserName = accountView.findViewById(R.id.account_username);
+        mContactNumber = accountView.findViewById(R.id.account_contact);
+        //Image / buttons
         mNameEdit = accountView.findViewById(R.id.iv_name_edit);
         mNameEdit.setOnClickListener(new View.OnClickListener(){
             @Override
@@ -100,6 +103,11 @@ public class AccountFragment extends Fragment
             String name = mSharedPref.getString(
                     (getString(R.string.pref_name_key)), "John");
             mUserName.setText(name);
+        }
+        else if (key.equals(getString(R.string.pref_contact_key))){
+            String contact = mSharedPref.getString(
+                    (getString(R.string.pref_contact_key)), getResources().getString(R.string.pref_contact_default));
+            mContactNumber.setText(contact);
         }
     }
 

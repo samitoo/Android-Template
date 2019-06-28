@@ -37,6 +37,12 @@
     <string name="pref_name_dialog_title">User Name</string>
     <string name="pref_name_dialog_message">Enter Name for account testing</string>
     <string name="pref_name_default">John Smith</string>
+    <!-- Mock Account Data Name -->
+    <string name="pref_contact_key" translatable="false">contact_number</string>
+    <string name="pref_contact_title">Contact Number</string>
+    <string name="pref_contact_dialog_title">Contact Number</string>
+    <string name="pref_contact_dialog_message">Enter number for account testing</string>
+    <string name="pref_contact_default">867-5309 </string>
     <!-- Mock Account Data Gender -->
     <string name="pref_gender_key" translatable="false">user_gender</string>
     <string name="pref_gender_title">Gender</string>

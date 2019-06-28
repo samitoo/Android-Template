@@ -67,9 +67,9 @@ public class Forms {
     public void setFormFieldList(List<FormField> formFieldList) {this.formFieldList = formFieldList;}
 
 
+    //TODO Generate static reports from a number in user preferences
     public static Forms[] prepopulateFormsData(){
         return new Forms[]{
-                new Forms("blank","Hydrant","Inspection Report"),
                 new Forms("blank","Hydrant","Inspection Report")
         };
     }
