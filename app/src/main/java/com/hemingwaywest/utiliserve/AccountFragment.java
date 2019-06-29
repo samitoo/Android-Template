@@ -53,28 +53,6 @@ public class AccountFragment extends Fragment
         //Text Fields
         mUserName = accountView.findViewById(R.id.account_username);
         mContactNumber = accountView.findViewById(R.id.account_contact);
-        //Image / buttons
-        mNameEdit = accountView.findViewById(R.id.iv_name_edit);
-        mNameEdit.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View v){
-                ImageClick();
-            }
-        });
-        mContactEdit = accountView.findViewById(R.id.iv_contact_edit);
-        mContactEdit.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ImageClick();
-            }
-        });
-        mHelp = accountView.findViewById(R.id.iv_help);
-        mHelp.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(Intent.ACTION_VIEW).setData(Uri.parse("https://www.hemingwaywest.com/")));
-            }
-        });
         setupSharedPreferences();
 
     }

@@ -4,6 +4,7 @@ import android.arch.lifecycle.ViewModelProviders;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
@@ -26,6 +27,7 @@ public class MainActivity extends AppCompatActivity
         implements SharedPreferences.OnSharedPreferenceChangeListener {
 
     boolean mDebugMode = false;
+    boolean mSync = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,7 +63,7 @@ public class MainActivity extends AppCompatActivity
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         //Can attach the listener to "this" since the class implements SharedPreferences.OnSharedPreferenceChangeListener
         sharedPreferences.registerOnSharedPreferenceChangeListener(this);
-        Boolean debug = sharedPreferences.getBoolean((getString(R.string.pref_show_debug_key)),
+        mDebugMode = sharedPreferences.getBoolean((getString(R.string.pref_show_debug_key)),
                 getResources().getBoolean(R.bool.pref_show_debug_default));
     }
 
@@ -78,17 +80,21 @@ public class MainActivity extends AppCompatActivity
                         case R.id.nav_forms:
                             selectedFragment = new FormFragment();
                             break;
-                        case R.id.nav_account:
-                            selectedFragment = new AccountFragment();
-                            break;
                         case R.id.nav_queue:
                             selectedFragment = new QueueFragment();
                             break;
+                        case R.id.nav_sync:
+                            mSync = true;
+                            break;
                     }
-
-                    getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
-                            selectedFragment).commit();
-
+                    if (mSync){
+                        Toast.makeText(getApplicationContext(), "Syncing Files", Toast.LENGTH_SHORT).show();
+                        mSync = false;
+                    }
+                    else {
+                        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
+                                selectedFragment).commit();
+                    }
                     return true;
                 }
             };
@@ -98,14 +104,15 @@ public class MainActivity extends AppCompatActivity
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main, menu);
+        MenuItem itemDelDB = menu.findItem(R.id.action_delete_db);
+        MenuItem itemLoadDB = menu.findItem(R.id.action_reload_db);
         if(!mDebugMode){
-            menu.getItem(1).setVisible(false);
-            menu.getItem(2).setVisible(false);
+            itemDelDB.setVisible(false);
+            itemLoadDB.setVisible(false);
         }
         else{
-            for (int i = 0; i < menu.size(); i++) {
-                menu.getItem(i).setVisible(true);
-            }
+            itemDelDB.setVisible(true);
+            itemLoadDB.setVisible(true);
         }
         return true;
     }
@@ -133,8 +140,13 @@ public class MainActivity extends AppCompatActivity
             formFrag.reloadDB();
         }
 
-        if(id==R.id.action_sync){
-            Toast.makeText(getApplicationContext(), "Syncing Files", Toast.LENGTH_SHORT).show();
+        if(id==R.id.action_account){
+            getSupportFragmentManager().beginTransaction().replace
+                    (R.id.fragment_container, new AccountFragment()).commit();
+        }
+
+        if(id==R.id.action_help){
+            startActivity(new Intent(Intent.ACTION_VIEW).setData(Uri.parse("https://www.hemingwaywest.com/")));
         }
 
         return super.onOptionsItemSelected(item);
@@ -146,16 +158,9 @@ public class MainActivity extends AppCompatActivity
         //TODO Add preferences changes to here instead of OnCreate
         if (key.equals(getString(R.string.pref_show_debug_key))){
             //Change to debug pull
-            Boolean debug = sharedPreferences.getBoolean
+            mDebugMode = sharedPreferences.getBoolean
                     (getString(R.string.pref_show_debug_key),false);
-            if(debug == false){
-                mDebugMode = false;
-                //forces on menu create to be called again
-                invalidateOptionsMenu();
-            }else if(debug == true){
-                mDebugMode = true;
-                invalidateOptionsMenu();
-            }
+            invalidateOptionsMenu();
         }
     }
 

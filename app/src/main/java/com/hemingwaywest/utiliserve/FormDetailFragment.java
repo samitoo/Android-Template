@@ -1,5 +1,6 @@
 package com.hemingwaywest.utiliserve;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -8,8 +9,10 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
@@ -18,6 +21,7 @@ import android.widget.TextView;
 import android.support.v7.widget.Toolbar;
 
 import com.hemingwaywest.utiliserve.Utilities.AppExecutors;
+import com.hemingwaywest.utiliserve.Utilities.HideKeyboardUtil;
 import com.hemingwaywest.utiliserve.database.AppDatabase;
 import com.hemingwaywest.utiliserve.database.FormField;
 import com.hemingwaywest.utiliserve.database.Forms;
@@ -91,6 +95,9 @@ public class FormDetailFragment extends Fragment {
     }
 
     private void initViews(){
+        HideKeyboardUtil.setHideKeyboardOnTouch(getContext(), formDetailView);
+
+
         mSaveButton = formDetailView.findViewById(R.id.saveButton);
         mSaveButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -125,6 +132,22 @@ public class FormDetailFragment extends Fragment {
                 getActivity().onBackPressed();
             }
         });
+    }
+
+    private void addTouchEventToNonEditText(View view){
+        if (!(view instanceof EditText)){
+            formDetailView.setOnTouchListener(new View.OnTouchListener(){
+                public boolean onTouch(View v, MotionEvent event){
+                    hideSoftKeyboard();
+                    return false;
+                }
+            });
+        }
+    }
+
+    private void hideSoftKeyboard(){
+        InputMethodManager imm = (InputMethodManager)getActivity().getSystemService(Activity.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(getActivity().getCurrentFocus().getWindowToken(), 0);
     }
 
     public void onSaveButtonClicked(){

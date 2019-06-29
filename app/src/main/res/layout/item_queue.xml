@@ -70,20 +70,5 @@
             android:layout_below="@+id/form_status"
             />
     </RelativeLayout>
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:layout_gravity="center"
-        android:layout_weight=".2"
-        >
-        <ImageView
-            android:id="@+id/rightIcon_form"
-            android:layout_width="56dp"
-            android:layout_height="56dp"
-            android:layout_gravity="end"
-            android:src="@drawable/ic_autorenew_black_24dp"
-            />
-    </LinearLayout>
 
 </LinearLayout>
