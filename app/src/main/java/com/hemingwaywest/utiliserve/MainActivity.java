@@ -1,33 +1,42 @@
 package com.hemingwaywest.utiliserve;
 
-import android.arch.lifecycle.ViewModelProviders;
+import androidx.appcompat.app.ActionBar;
+import androidx.lifecycle.ViewModelProviders;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Configuration;
 import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.support.annotation.NonNull;
-import android.support.design.widget.BottomNavigationView;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.support.v4.app.Fragment;
-import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
+import androidx.annotation.NonNull;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.navigation.NavigationView;
+
+import androidx.fragment.app.Fragment;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.appcompat.app.ActionBarDrawerToggle;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+
+import android.renderscript.Sampler;
 import android.util.Log;
-import android.view.View;
-import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.SlidingDrawer;
 import android.widget.Toast;
 
-import com.hemingwaywest.utiliserve.Models.FormsViewModel;
-
 public class MainActivity extends AppCompatActivity
-        implements SharedPreferences.OnSharedPreferenceChangeListener {
+        implements SharedPreferences.OnSharedPreferenceChangeListener,
+        NavigationView.OnNavigationItemSelectedListener {
 
     boolean mDebugMode = false;
     boolean mSync = false;
+    DrawerLayout drawerLayout;
+    ActionBarDrawerToggle toggle;
+    Toolbar toolbar;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,11 +44,27 @@ public class MainActivity extends AppCompatActivity
         setTheme(R.style.AppTheme_NoActionBar);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
 
+        //Find elements
+        toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        drawerLayout = findViewById(R.id.drawer_layout);
+        NavigationView drawerNavigationView = findViewById(R.id.nav_view);
         BottomNavigationView bottomNav = findViewById(R.id.bottom_navigation);
+
+        //Setup nav drawer button
+        toggle = new ActionBarDrawerToggle(MainActivity.this, drawerLayout, toolbar,
+                R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        toggle.setDrawerIndicatorEnabled(true);
+        toggle.syncState();
+
+        //Set Listeners
         bottomNav.setOnNavigationItemSelectedListener(navListener);
+        drawerNavigationView.setNavigationItemSelectedListener(this);
+        drawerLayout.addDrawerListener(toggle);
+
+
+
 
         //show fragment container on launch with Form Fragment
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new FormFragment()).commit();
@@ -100,8 +125,8 @@ public class MainActivity extends AppCompatActivity
             };
 
     //Controls / creates top menu
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
+    /*@Override
+    public boolean (Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main, menu);
         MenuItem itemDelDB = menu.findItem(R.id.action_delete_db);
@@ -115,40 +140,13 @@ public class MainActivity extends AppCompatActivity
             itemLoadDB.setVisible(true);
         }
         return true;
-    }
+    } */
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            Intent startSettingsActivity = new Intent(this, SettingsActivity.class);
-            startActivity(startSettingsActivity);
+        if (toggle.onOptionsItemSelected(item)){
             return true;
         }
-        if(id == R.id.action_delete_db){
-            Log.d("Main Menu", "Delete pressed");
-           createAlertForDelete();
-        }
-
-        if(id==R.id.action_reload_db){
-            FormFragment formFrag = (FormFragment)getSupportFragmentManager().findFragmentById(R.id.fragment_container);
-            formFrag.reloadDB();
-        }
-
-        if(id==R.id.action_account){
-            getSupportFragmentManager().beginTransaction().replace
-                    (R.id.fragment_container, new AccountFragment()).commit();
-        }
-
-        if(id==R.id.action_help){
-            startActivity(new Intent(Intent.ACTION_VIEW).setData(Uri.parse("https://www.hemingwaywest.com/")));
-        }
-
         return super.onOptionsItemSelected(item);
     }
 
@@ -186,5 +184,59 @@ public class MainActivity extends AppCompatActivity
         });
         AlertDialog dialog = alertbox.create();
         dialog.show();
+    }
+
+    //Override the back action to close the nav side drawer before closing fragment / activity
+    @Override
+    public void onBackPressed() {
+        if(drawerLayout.isDrawerOpen(GravityCompat.START)){
+            drawerLayout.closeDrawer(GravityCompat.START);
+        }
+        else {
+            super.onBackPressed();
+        }
+    }
+
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+
+
+        switch (menuItem.getItemId()){
+            case R.id.nav_settings:
+                Intent startSettingsActivity = new Intent(this, SettingsActivity.class);
+                startActivity(startSettingsActivity);
+                break;
+            case R.id.nav_account:
+                getSupportFragmentManager().beginTransaction().replace
+                        (R.id.fragment_container, new AccountFragment()).commit();
+                break;
+            case R.id.nav_help:
+                startActivity(new Intent(Intent.ACTION_VIEW).setData(Uri.parse("https://www.hemingwaywest.com/")));
+                break;
+            case R.id.nav_logout:
+                Toast.makeText(MainActivity.this, "Logout", Toast.LENGTH_SHORT).show();
+                break;
+        }
+
+        drawerLayout.closeDrawer(GravityCompat.START);
+        return true;
+    }
+
+    // `onPostCreate` called when activity start-up is complete after `onStart()`
+    // NOTE 1: Make sure to override the method with only a single `Bundle` argument
+    // Note 2: Make sure you implement the correct `onPostCreate(Bundle savedInstanceState)` method.
+    // There are 2 signatures and only `onPostCreate(Bundle state)` shows the hamburger icon.
+    @Override
+    protected void onPostCreate(Bundle savedInstanceState) {
+        super.onPostCreate(savedInstanceState);
+        // Sync the toggle state after onRestoreInstanceState has occurred.
+        toggle.syncState();
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        // Pass any configuration change to the drawer toggles
+        toggle.onConfigurationChanged(newConfig);
     }
 }

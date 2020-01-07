@@ -1,33 +1,38 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context="com.hemingwaywest.utiliserve.MainActivity">
-    <item
-        android:id="@+id/action_settings"
-        android:orderInCategory="100"
-        android:title="@string/action_settings"
-        app:showAsAction="never" />
-    <item
-        android:id="@+id/action_delete_db"
-        android:orderInCategory="100"
-        android:title="@string/delete_db" />
-    <item
-        android:id="@+id/action_reload_db"
-        android:orderInCategory="100"
-        android:title="@string/reload_db" />
-    <item
-        android:id="@+id/action_account"
-        android:orderInCategory="100"
-        android:title="Account"
-        />
-    <item
-        android:id="@+id/action_help"
-        android:orderInCategory="100"
-        android:title="@string/action_help"
-        />
-    <item
-        android:id="@+id/logout"
-        android:orderInCategory="101"
-        android:title="Logout"
-        app:showAsAction="never"/>
+    tools:context="com.hemingwaywest.utiliserve.MainActivity"
+    tools:showIn="navigation_view">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_settings"
+            android:icon="@drawable/ic_settings"
+            android:title="@string/action_settings" />
+        <item
+            android:id="@+id/nav_account"
+            android:icon="@drawable/ic_account_box_black_24dp"
+            android:title="Account" />
+        <item
+            android:id="@+id/nav_help"
+            android:icon="@drawable/ic_help_black_24dp"
+            android:title="@string/action_help" />
+        <item
+            android:id="@+id/nav_logout"
+            android:icon="@drawable/ic_logout"
+            android:title="Logout" />
+    </group>
+
+    <item android:title="Dev Options">
+        <menu>
+            <item
+                android:id="@+id/nav_action_delete_db"
+                android:icon="@drawable/ic_dns_black_24dp"
+                android:title="@string/delete_db" />
+            <item
+                android:id="@+id/nav_action_reload_db"
+                android:icon="@drawable/ic_dns_black_24dp"
+                android:title="@string/reload_db" />
+        </menu>
+    </item>
+
 </menu>

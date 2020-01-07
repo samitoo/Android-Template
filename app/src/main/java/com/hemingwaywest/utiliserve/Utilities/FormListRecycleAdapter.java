@@ -1,15 +1,13 @@
 package com.hemingwaywest.utiliserve.Utilities;
 
 import android.content.Context;
-import android.support.v7.widget.RecyclerView;
+import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.TextView;
 
 import com.hemingwaywest.utiliserve.R;
-import com.hemingwaywest.utiliserve.database.FormListEntry;
 import com.hemingwaywest.utiliserve.database.Forms;
 
 import java.util.List;

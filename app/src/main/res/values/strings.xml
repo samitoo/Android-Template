@@ -59,6 +59,9 @@
     <string name="pref_gender_male_value">0</string>
     <string name="pref_gender_female_value">1</string>
     <string name="pref_gender_other_value">2</string>
+    <!-- Value for Navigation Drawer -->
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
 
 
 

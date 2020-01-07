@@ -2,11 +2,10 @@ package com.hemingwaywest.utiliserve;
 
 import android.app.Activity;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -18,7 +17,7 @@ import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.RadioButton;
 import android.widget.TextView;
-import android.support.v7.widget.Toolbar;
+import androidx.appcompat.widget.Toolbar;
 
 import com.hemingwaywest.utiliserve.Utilities.AppExecutors;
 import com.hemingwaywest.utiliserve.Utilities.HideKeyboardUtil;
@@ -26,7 +25,6 @@ import com.hemingwaywest.utiliserve.database.AppDatabase;
 import com.hemingwaywest.utiliserve.database.FormField;
 import com.hemingwaywest.utiliserve.database.Forms;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.Executors;
