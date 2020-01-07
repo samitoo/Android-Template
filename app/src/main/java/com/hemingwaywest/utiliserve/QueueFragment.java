@@ -36,7 +36,7 @@ import java.util.List;
 public class QueueFragment extends Fragment implements QueueListRecycleAdapter.ItemClickListener {
 
     private static final String TAG = QueueFragment.class.getSimpleName();
-    private static final String TOOLBAR_TITLE = "Utiliserve";
+    //private static final String TOOLBAR_TITLE = "Utiliserve";
 
     View queueView;
     private RecyclerView rvQueue;
@@ -74,8 +74,8 @@ public class QueueFragment extends Fragment implements QueueListRecycleAdapter.I
 
         //Setup Toolbar
         Toolbar toolbar = getActivity().findViewById(R.id.toolbar);
-        toolbar.setTitle(TOOLBAR_TITLE);
-        toolbar.setNavigationIcon(null);
+        //toolbar.setTitle(TOOLBAR_TITLE);
+        //toolbar.setNavigationIcon(null);
     }
 
     //Setup the view model so that live data can auto refresh from the DB

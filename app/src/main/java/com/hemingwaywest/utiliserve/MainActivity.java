@@ -216,6 +216,12 @@ public class MainActivity extends AppCompatActivity
             case R.id.nav_logout:
                 Toast.makeText(MainActivity.this, "Logout", Toast.LENGTH_SHORT).show();
                 break;
+            case R.id.nav_action_delete_db:
+                createAlertForDelete();
+                break;
+            case R.id.nav_action_reload_db:
+                FormFragment formFrag = (FormFragment)getSupportFragmentManager().findFragmentById(R.id.fragment_container);
+                formFrag.reloadDB();
         }
 
         drawerLayout.closeDrawer(GravityCompat.START);

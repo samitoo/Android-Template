@@ -42,7 +42,7 @@ import androidx.appcompat.widget.Toolbar;
 public class FormFragment extends Fragment implements FormListRecycleAdapter.ItemClickListener {
 
     private static final String TAG = FormFragment.class.getSimpleName();
-    private static final String TOOLBAR_TITLE = "Utiliserve";
+    //private static final String TOOLBAR_TITLE = "";
     View formView;
     private RecyclerView myRecyclerView;
     private FormListRecycleAdapter mRecycleAdapter;
@@ -86,8 +86,8 @@ public class FormFragment extends Fragment implements FormListRecycleAdapter.Ite
 
         //Setup Toolbar
         Toolbar toolbar = getActivity().findViewById(R.id.toolbar);
-        toolbar.setTitle(TOOLBAR_TITLE);
-        toolbar.setNavigationIcon(null);
+        //toolbar.setTitle(TOOLBAR_TITLE);
+        //toolbar.setNavigationIcon(null);
     }
 
     //Setup the view model so that live data can auto refresh from the DB
