@@ -1,0 +1,370 @@
+{
+  "name": "Fire Hydrant Inspection and Maintenance Report",
+  "description": "This is a description",
+  "formType": "blank",
+  "Created": "2020-01-20",
+  "formFieldList": [
+    {
+      "name": "Hydrant Number",
+      "fieldType": "text"
+    },
+    {
+      "name": "Station Number",
+      "fieldType": "text"
+    },
+    {
+      "name": "Zip Code",
+      "fieldType": "text"
+    },
+    {
+      "name": "Hydrant Address",
+      "fieldType": "text"
+    },
+    {
+      "name": "Hydrant Subdivision",
+      "fieldType": "text"
+    },
+    {
+      "name": "Classification",
+      "option": [
+        "Residential",
+        "Commercial",
+        "Multi-family",
+        "Multi-family residential",
+        "Industrial",
+        "Parks and Recreation",
+        "Rural"
+      ],
+      "fieldType": "select"
+    },
+    {
+      "name": "Hydrant Physical Location",
+      "fieldType": "text"
+    },
+    {
+      "name": "Year",
+      "fieldType": "text"
+    },
+    {
+      "name": "Manufacturer",
+      "fieldType": "text"
+    },
+    {
+      "name": "Model",
+      "fieldType": "text"
+    },
+    {
+      "name": "Barrel Size",
+      "fieldType": "text"
+    },
+    {
+      "name": "Elevation of Hydrant Bury",
+      "optionsList": [
+        "Good",
+        "High",
+        "Low",
+        "Upper Barrel",
+        "Flange Buried"
+      ],
+      "fieldType": "select"
+    },
+    {
+      "name": "Chains",
+      "optionsList": [
+        "Good",
+        "Needs Replacing"
+      ],
+      "fieldType": "select"
+    },
+    {
+      "name": "Coating Condition",
+      "optionsList": [
+        "Good",
+        "Fair",
+        "Bad"
+      ],
+      "fieldType": "select"
+    },
+    {
+      "name": "Hydrant Banded",
+      "optionsList": [
+        "Yes",
+        "No"
+      ],
+      "fieldType": "select"
+    },
+    {
+      "name": "Band Color",
+      "optionsList": [
+        "Blue",
+        "Green",
+        "Orange",
+        "Red"
+      ],
+      "fieldType": "select"
+    },
+    {
+      "name": "Hydrant Tag Present",
+      "optionsList": [
+        "Yes",
+        "No"
+      ],
+      "fieldType": "select"
+    },
+    {
+      "name": "Road Reflection Present",
+      "optionsList": [
+        "Yes",
+        "No"
+      ],
+      "fieldType": "select"
+    },
+    {
+      "name": "Hydrant Valve Open or Closed",
+      "optionsList": [
+        "Open",
+        "Closed",
+        "Unknown"
+      ],
+      "fieldType": "select"
+    },
+    {
+      "name": "Nozzle Size",
+      "optionsList": [
+        "2.5in nozzle",
+        "4.5in steamer",
+        "4in steamer"
+      ],
+      "fieldType": "select"
+    },
+    {
+      "name": "Caps",
+      "optionsList": [
+        "Good",
+        "Fair - Starting to round edges outside of wrench connection and or threads wearing on inside",
+        "Bad - rounded outside wrench connection and or threads damaged and will not thread properly"
+      ],
+      "fieldType": "select"
+    },
+    {
+      "name": "Hydrant Breakaway Device",
+      "optionsList": [
+        "Good",
+        "Broken",
+        "Cracked / Leaking"
+      ],
+      "fieldType": "select"
+    },
+    {
+      "name": "Top Nut Condition",
+      "optionsList": [
+        "Good",
+        "Fair - Starting to round edges on wrench connection",
+        "Bad - Nut rounded"
+      ],
+      "fieldType": "select"
+    },
+    {
+      "name": "Internal Barrel Condition",
+      "optionsList": [
+        "Good",
+        "Rusty",
+        "Pitted"
+      ],
+      "fieldType": "select"
+    },
+    {
+      "name": "Stem Condition",
+      "optionsList": [
+        "Good",
+        "Rusty",
+        "Pitted"
+      ],
+      "fieldType": "select"
+    },
+    {
+      "name": "Hydrant Draining",
+      "optionsList": [
+        "Yes",
+        "No"
+      ],
+      "fieldType": "select"
+    },
+    {
+      "name": "Pump Water Out of Barrel",
+      "optionsList": [
+        "Yes",
+        "No"
+      ],
+      "fieldType": "select"
+    },
+    {
+      "name": "Hydrant Main Valve Leaking",
+      "optionsList": [
+        "Yes",
+        "No"
+      ],
+      "fieldType": "select"
+    },
+    {
+      "name": "Flush",
+      "optionsList": [
+        "Yes",
+        "No"
+      ],
+      "fieldType": "select"
+    },
+    {
+      "name": "Water Discharge Color",
+      "optionsList": [
+        "Rusty to clear",
+        "Murky to clear",
+        "Clear",
+        "Muddy to clear",
+        "Black to clear",
+        "Will no clear"
+      ],
+      "fieldType": "select"
+    },
+    {
+      "name": "Leaks During Pressure Test",
+      "optionsList": [
+        "Yes",
+        "No"
+      ],
+      "fieldType": "select"
+    },
+    {
+      "name": "Cleaned Nozzles",
+      "optionsList": [
+        "Yes",
+        "No"
+      ],
+      "fieldType": "select"
+    },
+    {
+      "name": "Lubricated Nozzles",
+      "optionsList": [
+        "Yes",
+        "No"
+      ],
+      "fieldType": "select"
+    },
+    {
+      "name": "Verify Operational",
+      "optionsList": [
+        "Yes",
+        "No"
+      ],
+      "fieldType": "select"
+    },
+    {
+      "name": "Lubricate Hydrant",
+      "optionsList": [
+        "Yes",
+        "No"
+      ],
+      "fieldType": "select"
+    },
+    {
+      "name": "Replace Bonnet O-Rings",
+      "optionsList": [
+        "Yes",
+        "No"
+      ],
+      "fieldType": "select"
+    },
+    {
+      "name": "Repalce Bonnet Gasket O-Ring",
+      "optionsList": [
+        "Yes",
+        "No"
+      ],
+      "fieldType": "select"
+    },
+    {
+      "name": "Replace Hold Down Nut O-Ring",
+      "optionsList": [
+        "Yes",
+        "No"
+      ],
+      "fieldType": "select"
+    },
+    {
+      "name": "Replace Operating Nut O-Ring",
+      "optionsList": [
+        "Yes",
+        "No"
+      ],
+      "fieldType": "select"
+    },
+    {
+      "name": "Replace Anti-Friction Washer",
+      "optionsList": [
+        "Yes",
+        "No"
+      ],
+      "fieldType": "select"
+    },
+    {
+      "name": "Replace Stem O-Rings",
+      "optionsList": [
+        "Yes",
+        "No"
+      ],
+      "fieldType": "select"
+    },
+    {
+      "name": "Replace Nuts and Bolts",
+      "optionsList": [
+        "Yes",
+        "No"
+      ],
+      "fieldType": "select"
+    },
+    {
+      "name": "Replace 2.5in Nozzle Cap Gaskets",
+      "optionsList": [
+        "Yes",
+        "No"
+      ],
+      "fieldType": "select"
+    },
+    {
+      "name": "Replace 4.5in Nozzle Cap Gaskets",
+      "optionsList": [
+        "Yes",
+        "No"
+      ],
+      "fieldType": "select"
+    },
+    {
+      "name": "Replace 4in Nozzle Cap Gaskets",
+      "optionsList": [
+        "Yes",
+        "No"
+      ],
+      "fieldType": "select"
+    },
+    {
+      "name": "Field Notes",
+      "fieldType": "text"
+    },
+    {
+      "name": "Pressure Test Leak Location(s)",
+      "fieldType": "text"
+    },
+    {
+      "name": "Signature",
+      "fieldType": "text"
+    },
+    {
+      "name": "Field Technician Name",
+      "fieldType": "text"
+    },
+    {
+      "name": "Date and Time",
+      "fieldType": "date"
+    }
+  ]
+}

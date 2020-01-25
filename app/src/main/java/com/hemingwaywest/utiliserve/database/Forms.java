@@ -5,6 +5,8 @@ import androidx.room.ForeignKey;
 import androidx.room.Ignore;
 import androidx.room.Index;
 import androidx.room.PrimaryKey;
+import androidx.room.TypeConverter;
+import androidx.room.TypeConverters;
 
 import java.util.List;
 
@@ -20,6 +22,7 @@ import static androidx.room.ForeignKey.CASCADE;
  */
 
 @Entity(tableName = "forms")
+
 public class Forms {
 
     @PrimaryKey(autoGenerate = true)

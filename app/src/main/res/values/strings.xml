@@ -4,10 +4,20 @@
     <string name="notification_settings">Notifications</string>
     <string name="delete_db">Delete Database</string>
     <string name="reload_db">Reload Database</string>
+    <string name="file_upload">Upload Sync</string>
+    <string name="file_download">Download Sync</string>
     <string name="sync_files">Sync to Database</string>
     <string name="save_button">Save</string>
     <string name="form_type_complete">Complete</string>
     <string name="action_help">Help</string>
+    <string name="api_test">Test API Connection</string>
+    <!-- ****************** -->
+    <!-- Toast Values -->
+    <!-- ****************** -->
+    <string name="nav_logout">Logout</string>
+    <string name="nav_sync_up">Syncing Up</string>
+    <string name="nav_sync_down">Syncing Down</string>
+    <string name="nav_api_test">Testing API Connection</string>
     <!-- ****************** -->
     <!-- Error Values -->
     <!-- ****************** -->

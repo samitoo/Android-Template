@@ -25,6 +25,18 @@
     <item android:title="Dev Options">
         <menu>
             <item
+                android:id="@+id/nav_action_file_upload"
+                android:icon="@drawable/ic_file_upload_black_24dp"
+                android:title="@string/file_upload" />
+            <item
+                android:id="@+id/nav_action_file_download"
+                android:icon="@drawable/ic_file_download_black_24dp"
+                android:title="@string/file_download" />
+            <item
+                android:id="@+id/nav_action_api_test"
+                android:icon="@drawable/ic_cloud_done_black_24dp"
+                android:title="@string/api_test" />
+            <item
                 android:id="@+id/nav_action_delete_db"
                 android:icon="@drawable/ic_dns_black_24dp"
                 android:title="@string/delete_db" />

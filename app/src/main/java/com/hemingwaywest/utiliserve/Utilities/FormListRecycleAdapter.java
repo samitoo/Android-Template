@@ -83,6 +83,9 @@ public class FormListRecycleAdapter extends RecyclerView.Adapter<FormListRecycle
         return mFormEntries;
     }
 
+    /*public int getId(int position){
+       return mFormEntries.get(position).getId();
+    }*/
 
     public interface ItemClickListener {
         void onItemClickListener(int itemId);

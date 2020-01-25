@@ -1,17 +1,22 @@
 package com.hemingwaywest.utiliserve;
 
-import androidx.appcompat.app.ActionBar;
-import androidx.lifecycle.ViewModelProviders;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.AssetManager;
 import android.content.res.Configuration;
 import android.net.Uri;
+import android.nfc.Tag;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import androidx.annotation.NonNull;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
+import com.google.gson.Gson;
+import com.hemingwaywest.utiliserve.Utilities.AppExecutors;
+import com.hemingwaywest.utiliserve.database.AppDatabase;
+import com.hemingwaywest.utiliserve.database.FormField;
+import com.hemingwaywest.utiliserve.database.Forms;
 
 import androidx.fragment.app.Fragment;
 import androidx.core.view.GravityCompat;
@@ -21,21 +26,31 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
-import android.renderscript.Sampler;
 import android.util.Log;
 import android.view.MenuItem;
-import android.widget.SlidingDrawer;
 import android.widget.Toast;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+import java.io.FileReader;
+import java.io.InputStream;
+import java.io.Reader;
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity
         implements SharedPreferences.OnSharedPreferenceChangeListener,
         NavigationView.OnNavigationItemSelectedListener {
 
+    private static final String TAG = MainActivity.class.getSimpleName();
     boolean mDebugMode = false;
     boolean mSync = false;
     DrawerLayout drawerLayout;
     ActionBarDrawerToggle toggle;
     Toolbar toolbar;
+    private AppDatabase mDb;
 
 
     @Override
@@ -44,6 +59,7 @@ public class MainActivity extends AppCompatActivity
         setTheme(R.style.AppTheme_NoActionBar);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        mDb = AppDatabase.getInstance(this);
 
         //Find elements
         toolbar = findViewById(R.id.toolbar);
@@ -214,7 +230,18 @@ public class MainActivity extends AppCompatActivity
                 startActivity(new Intent(Intent.ACTION_VIEW).setData(Uri.parse("https://www.hemingwaywest.com/")));
                 break;
             case R.id.nav_logout:
-                Toast.makeText(MainActivity.this, "Logout", Toast.LENGTH_SHORT).show();
+                Toast.makeText(MainActivity.this, R.string.nav_logout, Toast.LENGTH_SHORT).show();
+                break;
+            case R.id.nav_action_file_upload:
+                Toast.makeText(MainActivity.this, R.string.nav_sync_up, Toast.LENGTH_SHORT).show();
+                break;
+            case R.id.nav_action_file_download:
+                readGsonJson();
+                Toast.makeText(MainActivity.this, R.string.nav_sync_down, Toast.LENGTH_SHORT).show();
+                break;
+            case R.id.nav_action_api_test:
+                Toast.makeText(MainActivity.this, R.string.nav_api_test, Toast.LENGTH_SHORT).show();
+                startActivity(new Intent(Intent.ACTION_VIEW).setData(Uri.parse("https://www.hemingwaywest.com/")));
                 break;
             case R.id.nav_action_delete_db:
                 createAlertForDelete();
@@ -244,5 +271,50 @@ public class MainActivity extends AppCompatActivity
         super.onConfigurationChanged(newConfig);
         // Pass any configuration change to the drawer toggles
         toggle.onConfigurationChanged(newConfig);
+    }
+
+
+
+    private void readGsonJson(){
+        String test = readJsonFile();
+        try {
+           // Reader reader = new FileReader("demoforms.json");
+            final Forms form = new Gson().fromJson(test, Forms.class);
+            Log.d(TAG, "Loaded from gson: " + form);
+
+            //Add Json to DB
+            AppExecutors.getInstance().diskIO().execute(new Runnable() {
+                @Override
+                public void run() {
+                    Long mID = mDb.formsDao().insertForm(form);
+                    //form.setFormFieldList(fieldsList);
+                    form.setId(mID.intValue());
+                    mDb.formsDao().insertFormWithFields(form);
+                    Log.d(TAG, "form id = " + form.getId() + " and returned Long = " + mID);
+                }
+            });
+        }
+        catch(Exception e){
+            e.printStackTrace();
+        }
+
+    }
+
+    private String readJsonFile(){
+        String json = null;
+        try{
+            InputStream is = getAssets().open("demoforms.json");
+            int size = is.available();
+            byte[] buffer = new byte[size];
+            is.read(buffer);
+            is.close();
+            json = new String(buffer);
+            return json;
+        } catch (Exception e){
+            e.printStackTrace();
+            return null;
+        }
+
+        //return json;
     }
 }

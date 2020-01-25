@@ -52,6 +52,7 @@ public abstract class AppDatabase extends RoomDatabase {
                             @Override
                             public void run() {
                                 getInstance(context).formsDao().insertAll(Forms.prepopulateFormsData());
+                                //getInstance(context).formFieldDao().insertAll(FormField.prepopulateFormFields());
                             }
                         });
                     }

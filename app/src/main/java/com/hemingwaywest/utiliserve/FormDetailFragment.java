@@ -50,8 +50,8 @@ public class FormDetailFragment extends Fragment {
 
     private View formDetailView;
     private AppDatabase mDb;
-    List<FormField> mFormFields;
-    Forms formToUpdate;
+    private List<FormField> mFormFields;
+    private Forms formToUpdate;
 
     //Loading and Errors
     private TextView mErrorMessageDisplay, mFormTitle, mFormDescription;

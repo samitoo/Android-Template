@@ -1,5 +1,6 @@
 package com.hemingwaywest.utiliserve;
 
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import android.os.Bundle;
@@ -42,7 +43,7 @@ import androidx.appcompat.widget.Toolbar;
 public class FormFragment extends Fragment implements FormListRecycleAdapter.ItemClickListener {
 
     private static final String TAG = FormFragment.class.getSimpleName();
-    //private static final String TOOLBAR_TITLE = "";
+    private static final String TOOLBAR_TITLE = "";
     View formView;
     private RecyclerView myRecyclerView;
     private FormListRecycleAdapter mRecycleAdapter;
@@ -86,9 +87,15 @@ public class FormFragment extends Fragment implements FormListRecycleAdapter.Ite
 
         //Setup Toolbar
         Toolbar toolbar = getActivity().findViewById(R.id.toolbar);
-        //toolbar.setTitle(TOOLBAR_TITLE);
-        //toolbar.setNavigationIcon(null);
+        toolbar.setTitle(R.string.app_name);
+        //Disables back listener
+        ((AppCompatActivity)getActivity()).setSupportActionBar(toolbar);
+
+
+
+
     }
+
 
     //Setup the view model so that live data can auto refresh from the DB
     private void setupViewModel(){
@@ -140,10 +147,16 @@ public class FormFragment extends Fragment implements FormListRecycleAdapter.Ite
     @Override
     public void onItemClickListener(int itemId) {
         //TODO Launch the detail view with the itemID as an extra in the intent
+        Bundle bundle = new Bundle();
+        //int test = mRecycleAdapter.getId(itemId);
+        bundle.putInt("form_id", itemId);
+        Log.d(TAG, "Fragment id passed number: " + itemId);
+        FormBlankFragment frag = new FormBlankFragment();
+        frag.setArguments(bundle);
         //TODO use this to pick which detail view to load
         FragmentManager fragmentManager = getFragmentManager();
         FragmentTransaction transaction = fragmentManager.beginTransaction();
-        transaction.replace(R.id.fragment_container, new FormDetailFragment());
+        transaction.replace(R.id.fragment_container, frag);
         transaction.addToBackStack("fragmentDetail");
         transaction.commit();
 
