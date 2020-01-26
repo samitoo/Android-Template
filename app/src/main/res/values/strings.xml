@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Utiliserve</string>
+    <string name="app_name">Formz Engine</string>
     <string name="action_settings">Settings</string>
     <string name="notification_settings">Notifications</string>
     <string name="delete_db">Delete Database</string>

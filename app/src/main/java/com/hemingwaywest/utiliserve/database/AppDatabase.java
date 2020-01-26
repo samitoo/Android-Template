@@ -51,7 +51,7 @@ public abstract class AppDatabase extends RoomDatabase {
                         Executors.newSingleThreadScheduledExecutor().execute(new Runnable() {
                             @Override
                             public void run() {
-                                getInstance(context).formsDao().insertAll(Forms.prepopulateFormsData());
+                               // getInstance(context).formsDao().insertAll(Forms.prepopulateFormsData());
                                 //getInstance(context).formFieldDao().insertAll(FormField.prepopulateFormFields());
                             }
                         });

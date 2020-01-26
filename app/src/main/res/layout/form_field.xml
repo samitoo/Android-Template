@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="5dp"
+    android:background="@color/colorTwo"
+    android:showDividers="end">
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_gravity="center">
+
+        <TextView
+            android:id="@+id/formfield_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="text"
+            android:textSize="30sp"
+            android:visibility="visible"
+            />
+        <Spinner
+            android:id="@+id/formfield_select"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:spinnerMode="dropdown"
+            android:visibility="invisible"
+            android:layout_below="@+id/formfield_text"
+            />
+        <EditText
+            android:id="@+id/formfield_value"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="answer"
+            android:textSize="30sp"
+            android:visibility="visible"
+            android:layout_below="@+id/formfield_text"
+            />
+        </RelativeLayout>
+
+</LinearLayout>

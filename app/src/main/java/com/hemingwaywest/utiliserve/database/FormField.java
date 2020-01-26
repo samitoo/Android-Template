@@ -52,7 +52,11 @@ public class FormField {
         this.name = name;
         this.value = value;
         this.fieldType = fieldType;
-        this.optionsList.addAll(optionsList);
+        if (optionsList!=null){
+            this.optionsList = new ArrayList<>();
+            this.optionsList.addAll(optionsList);
+        }
+
     }
 
     /*public static FormField[] prepopulateFormFields(){
