@@ -40,10 +40,12 @@ public class FormField {
     private List<String> optionsList;
 
     @Ignore
-    public FormField(int form_id, String name, String value){
+    public FormField(int form_id, String name, String value, String fieldType, List<String> optionsList){
         this.form_id = form_id;
         this.name = name;
         this.value = value;
+        this.fieldType = fieldType;
+        this.optionsList = optionsList;
     }
 
     public FormField(int id, int form_id, String name, String value, String fieldType, List<String> optionsList){
@@ -52,10 +54,11 @@ public class FormField {
         this.name = name;
         this.value = value;
         this.fieldType = fieldType;
-        if (optionsList!=null){
+        this.optionsList = optionsList;
+        /*if (optionsList!=null){
             this.optionsList = new ArrayList<>();
             this.optionsList.addAll(optionsList);
-        }
+        }*/
 
     }
 

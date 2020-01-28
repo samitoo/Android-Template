@@ -97,12 +97,12 @@ public class FormDetailFragment extends Fragment {
 
 
         mSaveButton = formDetailView.findViewById(R.id.saveButton);
-        mSaveButton.setOnClickListener(new View.OnClickListener() {
+        /*mSaveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 onSaveButtonClicked();
             }
-        });
+        }); */
 
         //Should always have these 2
         mFormTitle = formDetailView.findViewById(R.id.tv_form_title);
@@ -148,7 +148,7 @@ public class FormDetailFragment extends Fragment {
         imm.hideSoftInputFromWindow(getActivity().getCurrentFocus().getWindowToken(), 0);
     }
 
-    public void onSaveButtonClicked(){
+  /*  public void onSaveButtonClicked(){
         //capture data in new form object
         String title = mFormTitle.getText().toString();
         String description = mFormDescription.getText().toString();
@@ -196,7 +196,7 @@ public class FormDetailFragment extends Fragment {
     }
 
     //Temp function catch all the values in the fields on this form
-    private FormField[] getList(Forms form){
+    /*private FormField[] getList(Forms form){
         return new FormField[]{
                 new FormField(form.getId(), "hydrant", mHydrantNo.getText().toString()),
                 new FormField(form.getId(), "address", mHydrantAdd.getText().toString()),
@@ -204,7 +204,7 @@ public class FormDetailFragment extends Fragment {
                 new FormField(form.getId(), "zip", mZipCode.getText().toString()),
                 new FormField(form.getId(), "hysub", mHydrantSub.getText().toString())
         };
-    }
+    }*/
 
     private void populateUI(Forms form){
         Log.d(TAG, "populateUI: Calling me!");

@@ -74,6 +74,7 @@ public class FormBlankRecycleAdapter extends RecyclerView.Adapter<FormBlankRecyc
             holder.formFieldSpinner.setAdapter(spinnerArrayAdapter);
         }
 
+
     }
 
     @Override
@@ -85,6 +86,14 @@ public class FormBlankRecycleAdapter extends RecyclerView.Adapter<FormBlankRecyc
     public void setFormData(List<FormField> fieldData){
         mFormFields = fieldData;
         notifyDataSetChanged();
+    }
+
+    public List<FormField> getFormData(){
+        return mFormFields;
+    }
+
+    public void getValueField(){
+
     }
 
     /**
@@ -109,7 +118,7 @@ public class FormBlankRecycleAdapter extends RecyclerView.Adapter<FormBlankRecyc
 
         @Override
         public void onClick(View view) {
-
+            notifyDataSetChanged();
         }
     }
 }

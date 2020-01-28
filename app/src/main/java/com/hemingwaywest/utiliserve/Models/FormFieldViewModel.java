@@ -31,8 +31,11 @@ public class FormFieldViewModel extends AndroidViewModel {
     public FormFieldViewModel(@NonNull Application application) {
         super(application);
         Log.d(TAG, "Actively retrieving the Forms from the Database");
-        listOfFields = database.formFieldDao().getFormFieldById(1);
+        //listOfFields = database.formFieldDao().getFormFieldById(formNumber);
     }
 
-    public LiveData<List<FormField>> getListOfFields(){return listOfFields;}
+    public LiveData<List<FormField>> getListOfFields(int formNumber){
+        listOfFields = database.formFieldDao().getFormFieldById(formNumber);
+        return listOfFields;
+    }
 }

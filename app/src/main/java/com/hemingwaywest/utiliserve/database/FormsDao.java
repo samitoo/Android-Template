@@ -23,7 +23,7 @@ import java.util.List;
 public abstract class FormsDao {
 
     //Get the blank template forms
-    @Query("SELECT * FROM forms WHERE formType ='blank'")
+    @Query("SELECT * FROM forms WHERE formType ='Blank'")
     public abstract LiveData<List<Forms>> getAllTemplates();
 
     @Query("SELECT * FROM forms WHERE formType='Complete'")
@@ -46,7 +46,7 @@ public abstract class FormsDao {
     public abstract void deleteForm(Forms form);
 
     //Relationship workarounds
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
     public abstract void insertFieldList(List<FormField> fields);
 
     @Update(onConflict = OnConflictStrategy.REPLACE)

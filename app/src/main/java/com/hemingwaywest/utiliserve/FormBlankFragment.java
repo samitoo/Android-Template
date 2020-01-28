@@ -6,7 +6,9 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -28,6 +30,11 @@ import com.hemingwaywest.utiliserve.database.AppDatabase;
 import com.hemingwaywest.utiliserve.database.FormField;
 import com.hemingwaywest.utiliserve.database.Forms;
 
+import org.w3c.dom.Text;
+
+import java.lang.reflect.Array;
+import java.text.Normalizer;
+import java.util.ArrayList;
 import java.util.List;
 
 import static java.lang.String.valueOf;
@@ -49,6 +56,7 @@ public class FormBlankFragment extends Fragment {
     private FormFieldViewModel viewModel;
     private Forms mForm;
     private List<FormField> mFormFields;
+    private Button mSaveButton;
 
     private TextView mTestText;
 
@@ -61,17 +69,32 @@ public class FormBlankFragment extends Fragment {
         mDb = AppDatabase.getInstance(getContext());
         //Find Views
         initViews();
+        checkBundle();
         setupViewModel();
 
 
         return blankFormView;
     }
 
+    private void checkBundle() {
+        Bundle bundle = this.getArguments();
+        if(bundle != null) {
+            Log.d(TAG, "Bundle pass successful " + bundle);
+            mFormID = bundle.getInt("form_id");
+        }
+    }
 
 
     private void initViews() {
         mTestText = blankFormView.findViewById(R.id.formTestEditText);
         mRecyclerView = blankFormView.findViewById(R.id.formBlank_recyclerView);
+        mSaveButton = blankFormView.findViewById(R.id.saveButton);
+        mSaveButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onSaveButtonClicked();
+            }
+        });
         //Setup Toolbar
         Toolbar toolbar = getActivity().findViewById(R.id.toolbar);
         toolbar.setTitle("Form Details");
@@ -90,9 +113,34 @@ public class FormBlankFragment extends Fragment {
         mRecyclerView.setAdapter(mRecycleAdapter);
     }
 
+    private void onSaveButtonClicked() {
+        //get the fields as a shallow copy
+        //TODO Create the NEW formfields to avoid copying with IDs
+        mFormFields = new ArrayList<>(mRecycleAdapter.getFormData());
+        final int parentID = mFormFields.get(0).getForm_id();
+        final List<FormField> newFormFieldTemplate = getAllFormFields(parentID);
+        //Save as new Form from template
+        AppExecutors.getInstance().diskIO().execute(new Runnable() {
+            @Override
+            public void run() {
+                //Get values from formFields Form parent
+                Forms getForm = mDb.formsDao().getForm(parentID);
+                Forms newForm = new Forms(getResources().getString(R.string.form_type_complete), getForm.getName(), getForm.getDescription());
+                Long mFID = mDb.formsDao().insertForm(newForm);
+                newForm.setId(mFID.intValue());
+                newForm.setFormFieldList(newFormFieldTemplate);
+                mDb.formsDao().insertFormWithFields(newForm);
+                //mDb.formsDao().insertForm(newForm);
+                //mDb.formsDao().insertFieldList(mFormFields);
+            }
+        });
+        getFragmentManager().popBackStackImmediate();
+
+    }
+
     private void setupViewModel(){
         viewModel = ViewModelProviders.of(this).get(FormFieldViewModel.class);
-        viewModel.getListOfFields().observe(this, new Observer<List<FormField>>() {
+        viewModel.getListOfFields(mFormID).observe(this, new Observer<List<FormField>>() {
             @Override
             public void onChanged(List<FormField> formFields) {
                 Log.d(TAG, "Updating list of forms from Livedata in FormViewModel");
@@ -101,35 +149,41 @@ public class FormBlankFragment extends Fragment {
         });
     }
 
-    private void loadFormFieldData(){
-    }
+    //Create new formFields to save to the DB as a clone of the template
+    private List<FormField> getAllFormFields(int parentID){
 
+        //Get local variable for adapter array
+        List<FormField> mFormFields = new ArrayList<>(mRecycleAdapter.getFormData());
+        final List<FormField> newFormField = new ArrayList<>();
+        //Loop through and get the values
+        for (int i=0; i < mRecycleAdapter.getItemCount(); i++){
+            String fieldName="";
+            String fieldValue = "";
+            String fieldType = "";
+            List<String> optionsList = new ArrayList<>();
 
-    private void showForm(Forms theForm) {
-        mTestText.setText(theForm.getName());
+            fieldName = mFormFields.get(i).getName();
+            fieldType = mFormFields.get(i).getFieldType();
+            if (mFormFields.get(i).getFieldType().equals("text")) {
+                fieldValue = ((TextView) mRecyclerView.findViewHolderForAdapterPosition(i).
+                        itemView.findViewById(R.id.formfield_value)).getText().toString();
+            }
+            else if (mFormFields.get(i).getFieldType().equals("select")){
+                fieldValue = ((Spinner) mRecyclerView.findViewHolderForAdapterPosition(i).
+                        itemView.findViewById(R.id.formfield_select)).getSelectedItem().toString();
+            }
+            if (mFormFields.get(i).getOptionsList() != null){
+                optionsList.addAll(mFormFields.get(i).getOptionsList());
+            }
 
-    }
-
-    private void oldBundleCheck(){
-        //Check bundle and fill detail page
-        Bundle bundle = this.getArguments();
-        if(bundle != null) {
-            Log.d(TAG, "Bundle pass successful " + bundle);
-            mTestText.setText("check");
-            //mSaveButton.setText("Update");
-            final int formID = bundle.getInt("form_id");
-            mFormID = formID;
-            AppExecutors.getInstance().diskIO().execute(new Runnable() {
-                @Override
-                public void run() {
-                    mForm = mDb.formsDao().getForm(formID);
-                    mFormFields = mDb.formsDao().getFormFieldList(formID);
-                    Log.d(TAG, "Number of Formfields " + mFormFields.size());
-                }
-            });
-            //Have to update UI from the UI thread
-            //showForm(mForm);
+            //Create new formField object with values
+            FormField tempField = new FormField(parentID, fieldName, fieldValue, fieldType, optionsList);
+            //Add to our List
+            newFormField.add(tempField);
         }
+
+        return newFormField;
     }
+
 
 }

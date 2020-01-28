@@ -1,23 +1,53 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+    android:id="@+id/form_blank_loader"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id="@+id/form_blank_loader">
+    android:orientation="vertical"
+    android:layout_margin="20dp">
 
 
     <TextView
         android:id="@+id/formTestEditText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Blank Form Fragment"
-        android:textSize="30sp"
+        android:layout_alignParentTop="true"
         android:layout_centerInParent="true"
-        android:layout_alignParentTop="true"/>
+        android:text=""
+        android:textSize="30sp" />
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/formBlank_recyclerView"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:visibility="visible"
-        />
+        android:layout_height="wrap_content"
+        android:paddingTop="20dp"
+        android:paddingBottom="20dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <!-- Add button -->
+            <Button
+                android:id="@+id/saveButton"
+                style="@style/TextAppearance.AppCompat.Large"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="20dp"
+                android:background="@color/colorPrimary"
+                android:text="@string/save_button"
+                android:textColor="@android:color/primary_text_dark" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/formBlank_recyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:visibility="visible" />
+
+
+        </LinearLayout>
+    </ScrollView>
+
 </RelativeLayout>

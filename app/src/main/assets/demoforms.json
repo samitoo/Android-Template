@@ -1,7 +1,7 @@
 {
   "name": "Fire Hydrant Inspection and Maintenance Report",
   "description": "This is a description",
-  "formType": "blank",
+  "formType": "Blank",
   "Created": "2020-01-20",
   "formFieldList": [
     {

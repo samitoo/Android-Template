@@ -19,23 +19,27 @@ import java.util.List;
  * Notes:
  */
 @Dao
-public interface FormFieldDao {
+public abstract class FormFieldDao {
 
     @Query("SELECT * FROM form_field")
-    List<FormField> getAll();
+    public abstract List<FormField> getAll();
 
     @Query("SELECT * FROM form_field where form_id =:id")
     public abstract LiveData<List<FormField>> getFormFieldById(int id);
 
-    @Insert
-    void insertFormField(FormField formField);
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    public abstract Long insertFormField(FormField formField);
+
 
     @Insert
-    void insertAll(FormField ...formFields);
+    public abstract void insertFieldList(List<FormField> fields);
+
+    @Insert
+    public  abstract void insertAll(FormField ...formFields);
 
     @Update(onConflict = OnConflictStrategy.REPLACE)
-    void updateFormField(FormField formField);
+    public abstract void updateFormField(FormField formField);
 
     @Delete
-    void deleteFormField(FormField formField);
+    public abstract void deleteFormField(FormField formField);
 }
