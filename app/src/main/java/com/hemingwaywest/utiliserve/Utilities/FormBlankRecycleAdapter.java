@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.hemingwaywest.utiliserve.R;
 import com.hemingwaywest.utiliserve.database.FormField;
+import com.hemingwaywest.utiliserve.database.Forms;
 
 import org.w3c.dom.Text;
 
@@ -34,6 +35,8 @@ public class FormBlankRecycleAdapter extends RecyclerView.Adapter<FormBlankRecyc
 
     private Context mContext;
     private List<FormField> mFormFields;
+    private boolean isUpdateForm = false;
+    private ArrayAdapter<String> spinnerArrayAdapter;
     //final private ItemClickListener
 
     public FormBlankRecycleAdapter(Context context){
@@ -64,14 +67,25 @@ public class FormBlankRecycleAdapter extends RecyclerView.Adapter<FormBlankRecyc
 
         //Set the values and toggle visibility
         holder.formFieldText.setText(name);
+        //TODO add types to Strings list
         if (type.equals("select")){
             holder.formFieldSpinner.setVisibility(View.VISIBLE);
             holder.formFieldValue.setVisibility(View.INVISIBLE);
-            ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<>(
+            spinnerArrayAdapter = new ArrayAdapter<>(
                     mContext,
                     android.R.layout.simple_spinner_item,
                     options);
             holder.formFieldSpinner.setAdapter(spinnerArrayAdapter);
+        }
+
+        //Check if viewing as update (Queuefragment)
+        if (isUpdateForm){
+            holder.formFieldValue.setText(value);
+            //Set spinner
+            if(type.equals("select")){
+                int spinnerPos = spinnerArrayAdapter.getPosition(value);
+                holder.formFieldSpinner.setSelection(spinnerPos);
+            }
         }
 
 
@@ -92,8 +106,8 @@ public class FormBlankRecycleAdapter extends RecyclerView.Adapter<FormBlankRecyc
         return mFormFields;
     }
 
-    public void getValueField(){
-
+    public void setIsUpdateForm(boolean isUpdate){
+        this.isUpdateForm = isUpdate;
     }
 
     /**

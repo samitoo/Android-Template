@@ -95,10 +95,10 @@ public class QueueFragment extends Fragment implements QueueListRecycleAdapter.I
     public void onItemClickListener(int itemId) {
         //Data to send
         Bundle bundle = new Bundle();
-        //TODO Call to DB to get the Fields for The selected form
         bundle.putInt("form_id", itemId);
+        bundle.putBoolean("from_queue", true);
         Log.d(TAG, "Fragment id passed number: " + itemId);
-        FormDetailFragment frag = new FormDetailFragment();
+        FormBlankFragment frag = new FormBlankFragment();
         frag.setArguments(bundle);
         //Change fragments
         FragmentManager fragmentManager = getFragmentManager();

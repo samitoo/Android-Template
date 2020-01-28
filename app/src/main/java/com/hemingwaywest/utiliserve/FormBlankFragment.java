@@ -57,6 +57,7 @@ public class FormBlankFragment extends Fragment {
     private Forms mForm;
     private List<FormField> mFormFields;
     private Button mSaveButton;
+    private Boolean mFromQueue = false;
 
     private TextView mTestText;
 
@@ -68,10 +69,9 @@ public class FormBlankFragment extends Fragment {
         //Connect to DB
         mDb = AppDatabase.getInstance(getContext());
         //Find Views
-        initViews();
         checkBundle();
+        initViews();
         setupViewModel();
-
 
         return blankFormView;
     }
@@ -81,6 +81,7 @@ public class FormBlankFragment extends Fragment {
         if(bundle != null) {
             Log.d(TAG, "Bundle pass successful " + bundle);
             mFormID = bundle.getInt("form_id");
+            mFromQueue = bundle.getBoolean("from_queue");
         }
     }
 
@@ -95,6 +96,9 @@ public class FormBlankFragment extends Fragment {
                 onSaveButtonClicked();
             }
         });
+        if (mFromQueue){
+            mSaveButton.setText("Update");
+        }
         //Setup Toolbar
         Toolbar toolbar = getActivity().findViewById(R.id.toolbar);
         toolbar.setTitle("Form Details");
@@ -108,6 +112,7 @@ public class FormBlankFragment extends Fragment {
         });
         //Setup adapter
         mRecycleAdapter = new FormBlankRecycleAdapter(getContext());
+        mRecycleAdapter.setIsUpdateForm(mFromQueue);
         decoration = new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
         mRecyclerView.setAdapter(mRecycleAdapter);
@@ -117,21 +122,19 @@ public class FormBlankFragment extends Fragment {
         //get the fields as a shallow copy
         //TODO Create the NEW formfields to avoid copying with IDs
         mFormFields = new ArrayList<>(mRecycleAdapter.getFormData());
-        final int parentID = mFormFields.get(0).getForm_id();
-        final List<FormField> newFormFieldTemplate = getAllFormFields(parentID);
+        final List<FormField> newFormFieldTemplate = getAllFormFields();
         //Save as new Form from template
         AppExecutors.getInstance().diskIO().execute(new Runnable() {
             @Override
             public void run() {
                 //Get values from formFields Form parent
-                Forms getForm = mDb.formsDao().getForm(parentID);
-                Forms newForm = new Forms(getResources().getString(R.string.form_type_complete), getForm.getName(), getForm.getDescription());
+                Forms getForm = mDb.formsDao().getForm(mFormID);
+                Forms newForm = new Forms(getResources().getString(R.string.form_type_complete),
+                        getForm.getName(), getForm.getDescription());
                 Long mFID = mDb.formsDao().insertForm(newForm);
                 newForm.setId(mFID.intValue());
                 newForm.setFormFieldList(newFormFieldTemplate);
                 mDb.formsDao().insertFormWithFields(newForm);
-                //mDb.formsDao().insertForm(newForm);
-                //mDb.formsDao().insertFieldList(mFormFields);
             }
         });
         getFragmentManager().popBackStackImmediate();
@@ -150,7 +153,7 @@ public class FormBlankFragment extends Fragment {
     }
 
     //Create new formFields to save to the DB as a clone of the template
-    private List<FormField> getAllFormFields(int parentID){
+    private List<FormField> getAllFormFields(){
 
         //Get local variable for adapter array
         List<FormField> mFormFields = new ArrayList<>(mRecycleAdapter.getFormData());
@@ -177,7 +180,7 @@ public class FormBlankFragment extends Fragment {
             }
 
             //Create new formField object with values
-            FormField tempField = new FormField(parentID, fieldName, fieldValue, fieldType, optionsList);
+            FormField tempField = new FormField(mFormID, fieldName, fieldValue, fieldType, optionsList);
             //Add to our List
             newFormField.add(tempField);
         }
