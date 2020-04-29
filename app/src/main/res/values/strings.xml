@@ -2,16 +2,26 @@
     <string name="app_name">Formz Engine</string>
     <string name="action_settings">Settings</string>
     <string name="notification_settings">Notifications</string>
+    <string name="fragment_form_title">Form Details</string>
+    <!-- ****************** -->
+    <!-- Dev Menu Values -->
+    <!-- ****************** -->
     <string name="delete_db">Delete Database</string>
     <string name="reload_db">Reload Database</string>
     <string name="file_upload">Upload Sync</string>
     <string name="file_download">Download Sync</string>
     <string name="sync_files">Sync to Database</string>
     <string name="save_button">Save</string>
-    <string name="form_type_complete">Complete</string>
-    <string name="form_type_blank">Blank</string>
+    <string name="update_button">Update</string>
     <string name="action_help">Help</string>
     <string name="api_test">Test API Connection</string>
+    <!-- ****************** -->
+    <!-- Form type Values -->
+    <!-- ****************** -->
+    <string name="form_type_complete">Complete</string>
+    <string name="form_type_blank">Blank</string>
+    <string name="form_field_type_text">text</string>
+    <string name="form_field_type_select">select</string>
     <!-- ****************** -->
     <!-- Toast Values -->
     <!-- ****************** -->

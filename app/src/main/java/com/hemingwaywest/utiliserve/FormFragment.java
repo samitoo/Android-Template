@@ -148,7 +148,7 @@ public class FormFragment extends Fragment implements FormListRecycleAdapter.Ite
     public void onItemClickListener(int itemId) {
         Bundle bundle = new Bundle();
         bundle.putInt("form_id", itemId);
-        bundle.putBoolean("from_queue", true);
+        bundle.putBoolean("from_queue", false);
         Log.d(TAG, "Fragment id passed number: " + itemId);
         FormBlankFragment frag = new FormBlankFragment();
         frag.setArguments(bundle);

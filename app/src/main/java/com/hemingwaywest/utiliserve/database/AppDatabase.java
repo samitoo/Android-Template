@@ -23,7 +23,6 @@ public abstract class AppDatabase extends RoomDatabase {
             synchronized (LOCK){
                 Log.d(LOG_TAG, "Creating a new database instance");
                 sInstance = buildDatabase(context);
-                //Loading fake data from method below
                 //TODO Move fake load to somewhere else
                 /*sInstance = Room.databaseBuilder(context.getApplicationContext(),
                         AppDatabase.class, AppDatabase.DATABASE_NAME)
@@ -51,8 +50,7 @@ public abstract class AppDatabase extends RoomDatabase {
                         Executors.newSingleThreadScheduledExecutor().execute(new Runnable() {
                             @Override
                             public void run() {
-                               // getInstance(context).formsDao().insertAll(Forms.prepopulateFormsData());
-                                //getInstance(context).formFieldDao().insertAll(FormField.prepopulateFormFields());
+
                             }
                         });
                     }
@@ -64,7 +62,7 @@ public abstract class AppDatabase extends RoomDatabase {
         Executors.newSingleThreadScheduledExecutor().execute(new Runnable() {
             @Override
             public void run() {
-                getInstance(context).formsDao().insertAll(Forms.prepopulateFormsData());
+                //getInstance(context).formsDao().insertAll(Forms.prepopulateFormsData());
             }
         });
     }

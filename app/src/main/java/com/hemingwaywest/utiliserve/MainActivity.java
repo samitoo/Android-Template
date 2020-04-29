@@ -3,10 +3,8 @@ package com.hemingwaywest.utiliserve;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.res.AssetManager;
 import android.content.res.Configuration;
 import android.net.Uri;
-import android.nfc.Tag;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import androidx.annotation.NonNull;
@@ -15,7 +13,6 @@ import com.google.android.material.navigation.NavigationView;
 import com.google.gson.Gson;
 import com.hemingwaywest.utiliserve.Utilities.AppExecutors;
 import com.hemingwaywest.utiliserve.database.AppDatabase;
-import com.hemingwaywest.utiliserve.database.FormField;
 import com.hemingwaywest.utiliserve.database.Forms;
 
 import androidx.fragment.app.Fragment;
@@ -30,14 +27,8 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.widget.Toast;
 
-import org.json.JSONArray;
-import org.json.JSONObject;
-
-import java.io.FileReader;
 import java.io.InputStream;
-import java.io.Reader;
-import java.lang.reflect.Array;
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity
@@ -78,9 +69,6 @@ public class MainActivity extends AppCompatActivity
         bottomNav.setOnNavigationItemSelectedListener(navListener);
         drawerNavigationView.setNavigationItemSelectedListener(this);
         drawerLayout.addDrawerListener(toggle);
-
-
-
 
         //show fragment container on launch with Form Fragment
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new FormFragment()).commit();
@@ -139,24 +127,6 @@ public class MainActivity extends AppCompatActivity
                     return true;
                 }
             };
-
-    //Controls / creates top menu
-    /*@Override
-    public boolean (Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        MenuItem itemDelDB = menu.findItem(R.id.action_delete_db);
-        MenuItem itemLoadDB = menu.findItem(R.id.action_reload_db);
-        if(!mDebugMode){
-            itemDelDB.setVisible(false);
-            itemLoadDB.setVisible(false);
-        }
-        else{
-            itemDelDB.setVisible(true);
-            itemLoadDB.setVisible(true);
-        }
-        return true;
-    } */
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -278,19 +248,23 @@ public class MainActivity extends AppCompatActivity
     private void readGsonJson(){
         String test = readJsonFile();
         try {
-           // Reader reader = new FileReader("demoforms.json");
-            final Forms form = new Gson().fromJson(test, Forms.class);
-            Log.d(TAG, "Loaded from gson: " + form);
+            //Read in group of forms and then take as list to insert
+            Forms [] formsArray = new Gson().fromJson(test, Forms[].class);
+            final List<Forms> forms = Arrays.asList(formsArray);
 
             //Add Json to DB
             AppExecutors.getInstance().diskIO().execute(new Runnable() {
                 @Override
                 public void run() {
-                    Long mID = mDb.formsDao().insertForm(form);
-                    //form.setFormFieldList(fieldsList);
-                    form.setId(mID.intValue());
-                    mDb.formsDao().insertFormWithFields(form);
-                    Log.d(TAG, "form id = " + form.getId() + " and returned Long = " + mID);
+
+                    for (int i = 0; i < forms.size(); i++) {
+                        Forms form = new Forms(forms.get(i).getFormType(),forms.get(i).getName(), forms.get(i).getDescription());
+                        form.setFormFieldList(forms.get(i).getFormFieldList());
+                        Long mID = mDb.formsDao().insertForm(form);
+                        form.setId(mID.intValue());
+                        mDb.formsDao().insertFormWithFields(form);
+                        Log.d(TAG, "form id = " + form.getId() + " and returned Long = " + mID);
+                    }
                 }
             });
         }
@@ -315,6 +289,5 @@ public class MainActivity extends AppCompatActivity
             return null;
         }
 
-        //return json;
     }
 }

@@ -37,7 +37,6 @@ public class FormBlankRecycleAdapter extends RecyclerView.Adapter<FormBlankRecyc
     private List<FormField> mFormFields;
     private boolean isUpdateForm = false;
     private ArrayAdapter<String> spinnerArrayAdapter;
-    //final private ItemClickListener
 
     public FormBlankRecycleAdapter(Context context){
         mContext = context;
@@ -68,7 +67,7 @@ public class FormBlankRecycleAdapter extends RecyclerView.Adapter<FormBlankRecyc
         //Set the values and toggle visibility
         holder.formFieldText.setText(name);
         //TODO add types to Strings list
-        if (type.equals("select")){
+        if (type.equals(R.string.form_field_type_select)){
             holder.formFieldSpinner.setVisibility(View.VISIBLE);
             holder.formFieldValue.setVisibility(View.INVISIBLE);
             spinnerArrayAdapter = new ArrayAdapter<>(
@@ -82,7 +81,7 @@ public class FormBlankRecycleAdapter extends RecyclerView.Adapter<FormBlankRecyc
         if (isUpdateForm){
             holder.formFieldValue.setText(value);
             //Set spinner
-            if(type.equals("select")){
+            if(type.equals(R.string.form_field_type_select)){
                 int spinnerPos = spinnerArrayAdapter.getPosition(value);
                 holder.formFieldSpinner.setSelection(spinnerPos);
             }

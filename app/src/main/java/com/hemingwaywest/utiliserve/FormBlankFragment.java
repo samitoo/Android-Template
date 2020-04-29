@@ -97,16 +97,14 @@ public class FormBlankFragment extends Fragment {
             }
         });
         if (mFromQueue){
-            mSaveButton.setText("Update");
+            mSaveButton.setText(R.string.update_button);
         }
         //Setup Toolbar
         Toolbar toolbar = getActivity().findViewById(R.id.toolbar);
-        toolbar.setTitle("Form Details");
-        //toolbar.setNavigationIcon(R.drawable.ic_arrow_back_black_24dp);
+        toolbar.setTitle(R.string.fragment_form_title);
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //getActivity().onBackPressed();
                 getFragmentManager().popBackStack();
             }
         });
@@ -119,8 +117,6 @@ public class FormBlankFragment extends Fragment {
     }
 
     private void onSaveButtonClicked() {
-        //get the fields as a shallow copy
-        //TODO Create the NEW formfields to avoid copying with IDs
         mFormFields = new ArrayList<>(mRecycleAdapter.getFormData());
         final List<FormField> newFormFieldTemplate = getAllFormFields();
         //Save as new Form from template
@@ -167,11 +163,11 @@ public class FormBlankFragment extends Fragment {
 
             fieldName = mFormFields.get(i).getName();
             fieldType = mFormFields.get(i).getFieldType();
-            if (mFormFields.get(i).getFieldType().equals("text")) {
+            if (mFormFields.get(i).getFieldType().equals(R.string.form_field_type_text)) {
                 fieldValue = ((TextView) mRecyclerView.findViewHolderForAdapterPosition(i).
                         itemView.findViewById(R.id.formfield_value)).getText().toString();
             }
-            else if (mFormFields.get(i).getFieldType().equals("select")){
+            else if (mFormFields.get(i).getFieldType().equals(R.string.form_field_type_select)){
                 fieldValue = ((Spinner) mRecyclerView.findViewHolderForAdapterPosition(i).
                         itemView.findViewById(R.id.formfield_select)).getSelectedItem().toString();
             }
